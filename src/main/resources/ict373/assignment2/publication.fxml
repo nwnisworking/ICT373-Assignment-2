@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane ?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<VBox 
+  xmlns:fx="http://javafx.com/fxml/1" 
+  xmlns="http://javafx.com/javafx/8.0.171" 
+>
+  <GridPane>
+    <padding>
+      <Insets top="10" bottom="10" left="10" right="10" />
+    </padding>
+    <columnConstraints>
+      <ColumnConstraints hgrow="NEVER" /> 
+      <ColumnConstraints hgrow="ALWAYS" /> 
+      <ColumnConstraints halignment="RIGHT" /> 
+    </columnConstraints>
+    <TextField fx:id="search_field" promptText="Search for Magazine" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <Label GridPane.columnIndex="1"  />
+    <Button text="Create Magazine / Supplement" GridPane.columnIndex="2" GridPane.rowIndex="0" fx:id="add_btn" />
+  </GridPane>
+  <TableView fx:id="table_view">
+    <columns>
+      <TableColumn fx:id="id_column" text="ID" />
+      <TableColumn fx:id="name_column" text="Name" />
+      <TableColumn fx:id="cost_column" text="Cost" />
+      <TableColumn fx:id="type_column" text="Type" />
+      <TableColumn fx:id="action_column" text="Action" />
+    </columns>
+  </TableView>
+</VBox>

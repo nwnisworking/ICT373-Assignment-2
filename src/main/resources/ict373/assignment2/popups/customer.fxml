@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<VBox
+  xmlns:fx="http://javafx.com/fxml/1" 
+  xmlns="http://javafx.com/javafx/8.0.171"
+  prefWidth="500"
+  prefHeight="300"
+  spacing="10"
+>
+  <TabPane
+    tabClosingPolicy="UNAVAILABLE"
+    fx:id="tab_pane"
+    VBox.vgrow="ALWAYS"
+  >
+    <Tab text="Profile">
+      <VBox spacing="10">
+        <padding>
+          <Insets top="10" bottom="10" left="10" right="10" />
+        </padding>
+        <HBox spacing="10">
+          <Label text="Name" minWidth="100"  />
+          <TextField fx:id="name_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+
+        <HBox spacing="10">
+          <Label text="Email" minWidth="100" />
+          <TextField fx:id="email_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+
+        <HBox spacing="10">
+          <Label text="Type" minWidth="100" />
+          <ComboBox fx:id="type_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" value="Paying Customer">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Paying Customer"/>
+                <String fx:value="Associate Customer"/>
+              </FXCollections>
+            </items>
+          </ComboBox>
+        </HBox>
+
+        <HBox spacing="10" fx:id="paying_customer_row">
+          <Label minWidth="100" text="Payer" />
+          <ComboBox fx:id="paying_customer_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+      </VBox>
+    </Tab>
+
+    <Tab text="Payment Info" fx:id="payment_info_tab">
+      <VBox spacing="10">
+        <padding>
+          <Insets top="10" bottom="10" left="10" right="10" />
+        </padding>
+        <HBox spacing="10">
+          <Label minWidth="120" text="Payment Method" />
+          <ComboBox fx:id="card_type_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" value="Credit Card">
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Credit Card"/>
+                <String fx:value="Direct Debit"/>
+              </FXCollections>
+            </items>
+          </ComboBox>
+        </HBox>
+
+        <HBox spacing="10" fx:id="card_no_row">
+          <Label minWidth="120" text="Card Number" />
+          <TextField fx:id="card_no_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+
+        <HBox spacing="10" fx:id="exp_date_row">
+          <Label minWidth="120" text="Expiry Date" />
+          <TextField fx:id="exp_date_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+
+        <HBox spacing="10" fx:id="acc_no_row">
+          <Label minWidth="120" text="Account Number" />
+          <TextField fx:id="acc_no_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+
+        <HBox spacing="10" fx:id="bank_name_row">
+          <Label minWidth="120" text="Bank Name" />
+          <TextField fx:id="bank_name_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+      </VBox>
+    </Tab>
+    <Tab text="Address">
+      <VBox spacing="10">
+        <padding>
+          <Insets top="10" bottom="10" left="10" right="10" />
+        </padding>
+        <HBox spacing="10">
+          <Label minWidth="120" text="Street Number" />
+          <TextField fx:id="street_no_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+
+
+        <HBox spacing="10">
+          <Label minWidth="120" text="Postal Code" />
+          <TextField fx:id="postal_code_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+
+
+        <HBox spacing="10">
+          <Label minWidth="120" text="Street Name" />
+          <TextField fx:id="street_name_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+
+
+        <HBox spacing="10" fx:id="suburb_row">
+          <Label minWidth="120" text="Suburb" />
+          <TextField fx:id="suburb_field" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+        </HBox>
+      </VBox>
+    </Tab>
+
+    <Tab text="Subscription" fx:id="subscription_tab"/>
+    <Tab text="Associates" fx:id="associate_tab" />
+    <Tab text="Billing" fx:id="billing_tab" />
+  </TabPane>
+  <HBox alignment="CENTER_RIGHT" spacing="10">
+    <padding>
+      <Insets top="10" bottom="10" left="10" right="10" />
+    </padding>
+    <Button fx:id="btn" />
+  </HBox>
+</VBox>

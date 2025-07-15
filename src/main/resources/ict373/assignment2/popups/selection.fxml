@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.ListView ?>
+
+<VBox
+  xmlns:fx="http://javafx.com/fxml/1" 
+  xmlns="http://javafx.com/javafx/8.0.171"
+  prefWidth="300"
+  prefHeight="300"
+>
+  <padding>
+    <Insets top="10" bottom="10" left="10" right="10" />
+  </padding>
+  <HBox spacing="10">
+    <Label text="Magazine" />
+    <ComboBox fx:id="mag_field" />
+  </HBox>
+  <HBox spacing="10">
+    <Label text="Supplement" />
+  </HBox>
+  <HBox VBox.vgrow="ALWAYS">
+    <ListView fx:id="supp_field" />  
+  </HBox>
+  <HBox alignment="CENTER_RIGHT" spacing="10">
+    <padding>
+      <Insets top="10" bottom="10" left="10" right="10" />
+    </padding>
+    <Button fx:id="btn" text="Add" />
+  </HBox>
+</VBox>

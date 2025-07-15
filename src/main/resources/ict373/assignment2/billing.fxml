@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane fitToWidth="true" fitToHeight="true">
+  <content>
+    <VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx"
+      spacing="10">
+      <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+      </padding>
+      <Label text="Subscriptions" />
+
+      <TableView fx:id="payer_table_view" VBox.vgrow="ALWAYS" minHeight="100">
+        <columns>
+          <TableColumn fx:id="payer_subscription_column" text="Subscription" />
+          <TableColumn fx:id="payer_cost_column" text="Amount" />
+          <TableColumn fx:id="payer_type_column" text="Type" />
+        </columns>
+      </TableView>
+
+      <Label text="Subscriptions by Associates" />
+
+      <TableView fx:id="billing_table_view" VBox.vgrow="ALWAYS" minHeight="100" >
+        <columns>
+          <TableColumn fx:id="customer_column" text="Customer" />
+          <TableColumn fx:id="subscription_column" text="Subscription" />
+          <TableColumn fx:id="cost_column" text="Cost" />
+          <TableColumn fx:id="type_column" text="Type" />
+        </columns>
+      </TableView>
+
+      <Label fx:id="total_cost_label" />
+    </VBox>
+    
+  </content>
+</ScrollPane>
+

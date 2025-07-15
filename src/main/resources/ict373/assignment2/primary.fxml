@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane ?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane 
+  xmlns:fx="http://javafx.com/fxml/1" 
+  xmlns="http://javafx.com/javafx/8.0.171" 
+  stylesheets="@app.css"
+  fx:id="main"
+>
+  <columnConstraints>
+    <ColumnConstraints minWidth="250" prefWidth="250" maxWidth="250" hgrow="NEVER" />
+    <ColumnConstraints minWidth="0" hgrow="ALWAYS"/>  
+  </columnConstraints>
+  
+  <rowConstraints>
+    <RowConstraints vgrow="ALWAYS"/>
+  </rowConstraints>
+  
+  <fx:define>
+    <ToggleGroup fx:id="nav_group" />
+  </fx:define>
+  <children>
+    <VBox 
+      GridPane.columnIndex="0"
+      GridPane.rowIndex="0"  
+      styleClass="nav-box"
+      maxHeight="Infinity"  
+      prefWidth="250"
+    >
+      <children>        
+        <Label text="Magazine Subscription Managment" id="hero-title" />
+        <ToggleButton 
+          toggleGroup="$nav_group" 
+          selected="true" 
+          VBox.vgrow="ALWAYS" 
+          styleClass="nav-btn" 
+          text="Magazine / Supplement"
+          onMouseClicked="#publicationPage"
+        />   
+        <ToggleButton 
+          toggleGroup="$nav_group" 
+          VBox.vgrow="ALWAYS" 
+          styleClass="nav-btn" 
+          text="Customer"          
+          onMouseClicked="#customerPage"
+        />
+        <ToggleButton 
+          fx:id="save_dat_btn"
+          toggleGroup="$nav_group"
+          VBox.vgrow="ALWAYS"
+          styleClass="nav-btn"
+          text="Save Masterlist"
+          onMouseClicked="#saveDAT"
+         />
+        <ToggleButton 
+          fx:id="load_dat_btn"
+          toggleGroup="$nav_group"
+          VBox.vgrow="ALWAYS"
+          styleClass="nav-btn"
+          text="Load Masterlist"
+          onMouseClicked="#loadDAT"
+         />
+      </children>
+    </VBox>
+    <StackPane
+      GridPane.columnIndex="1"
+      GridPane.rowIndex="0"
+      GridPane.hgrow="ALWAYS"      
+      GridPane.vgrow="ALWAYS"
+      alignment="TOP_LEFT"
+      fx:id="content_page" 
+    >
+    </StackPane>
+  </children>
+</GridPane>
