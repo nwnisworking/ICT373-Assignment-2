@@ -1,0 +1,25 @@
+#hero-title{
+  -fx-font-size: 2em;
+  -fx-text-fill: #e8e8e8;
+  -fx-font-weight: bold;
+  -fx-wrap-text: true;
+  -fx-padding: 10px;
+}
+
+.nav-btn{
+  -fx-background-color: transparent;
+  -fx-alignment: CENTER_LEFT;
+  -fx-max-width: Infinity;
+  -fx-padding: 15px;
+  -fx-text-fill: #80868b;
+  -fx-font-weight: 500;
+}
+
+.nav-btn:hover, .nav-btn:selected{
+  -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+  -fx-text-fill: -fx-text-base-color;
+}
+
+.nav-box{
+  -fx-background-color: #1f1f1f;
+}
