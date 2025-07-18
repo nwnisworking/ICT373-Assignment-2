@@ -16,7 +16,7 @@
       <TableView fx:id="payer_table_view" VBox.vgrow="ALWAYS" minHeight="100">
         <columns>
           <TableColumn fx:id="payer_subscription_column" text="Subscription" />
-          <TableColumn fx:id="payer_cost_column" text="Amount" />
+          <TableColumn fx:id="payer_cost_column" text="Cost Per Week" />
           <TableColumn fx:id="payer_type_column" text="Type" />
         </columns>
       </TableView>
@@ -27,7 +27,7 @@
         <columns>
           <TableColumn fx:id="customer_column" text="Customer" />
           <TableColumn fx:id="subscription_column" text="Subscription" />
-          <TableColumn fx:id="cost_column" text="Cost" />
+          <TableColumn fx:id="cost_column" text="Cost Per Week" />
           <TableColumn fx:id="type_column" text="Type" />
         </columns>
       </TableView>

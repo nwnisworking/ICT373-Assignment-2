@@ -140,11 +140,11 @@ class BillingController extends BaseController implements Initializable{
         ArrayList<CustomerSubscription> assoc_sub = new ArrayList<>();
         ArrayList<Publication> payer_pub = new ArrayList<>(payer.getPublications());
         
-        payer.getPublications().forEach(e->total[0]+= e.getCost());
+        payer.getPublications().forEach(e->total[0]+= e.getCost() * 4);
         
         payer.getAssociates().forEach(assoc->{
           assoc.getPublications().forEach(pub->{
-            total[0]+= pub.getCost();
+            total[0]+= pub.getCost() * 4;
             assoc_sub.add(new CustomerSubscription(assoc, pub));
           });
         });

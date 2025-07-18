@@ -129,7 +129,7 @@ public interface Validator<T> {
    * @return a Validator that checks if the value is a positive number
    */
   static Validator<String> isPositive(){
-    return e->e.matches("^(\\d+)?(\\.\\d+)?$");
+    return e->!e.isBlank() && e.matches("^(\\d+)?(\\.\\d+)?$");
   }
   
   /**

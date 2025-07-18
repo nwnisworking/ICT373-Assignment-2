@@ -25,7 +25,7 @@
     fx:id="tab_pane"
     VBox.vgrow="ALWAYS"
   >
-    <Tab text="Profile">
+    <Tab text="Profile" fx:id="profile_tab">
       <VBox spacing="10">
         <padding>
           <Insets top="10" bottom="10" left="10" right="10" />
@@ -97,7 +97,7 @@
         </HBox>
       </VBox>
     </Tab>
-    <Tab text="Address">
+    <Tab text="Address" fx:id="address_tab">
       <VBox spacing="10">
         <padding>
           <Insets top="10" bottom="10" left="10" right="10" />

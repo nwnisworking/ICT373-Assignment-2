@@ -13,6 +13,7 @@ import ict373.assignment2.App;
 import javafx.fxml.FXMLLoader;
 import ict373.assignment2.controllers.customer.CustomerController;
 import ict373.assignment2.models.*;
+import ict373.assignment2.utils.BaseController;
 import ict373.assignment2.utils.Bundler;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +35,7 @@ import javafx.stage.FileChooser;
  * @date 15/7/2025
  * @filename MainController.java
  */
-public class MainController implements Initializable{
+public class MainController extends BaseController implements Initializable{
   /**
    * Navigation group for the main application.
    */

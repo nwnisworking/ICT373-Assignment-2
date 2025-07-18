@@ -170,14 +170,15 @@ class PopupController extends BaseController implements Initializable{
   /**
    * Adds a new publication based on the input fields and selected type.
    */
-  public void addPublication(){
+  private void addPublication(){
     Stage stage = (Stage) btn.getScene().getWindow();
     String name = name_field.getText();
     String cost = cost_field.getText();
     Magazine mag = (Magazine) mag_field.getValue();
     int id = model.maxID() + 1;
-
-    if(!validate()){
+    boolean result = confirm("Add Publication", "Do you want to add a new publication?");
+    
+    if(!result || !validate()){
       return;
     }
 
@@ -188,6 +189,7 @@ class PopupController extends BaseController implements Initializable{
       model.getData().add(new Supplement(id, name, Double.parseDouble(cost), mag));
     }
 
+    
     stage.close();
   }
   
@@ -195,13 +197,14 @@ class PopupController extends BaseController implements Initializable{
    * Edits an existing publication based on the input fields and selected type.
    * @param pub
    */
-  public void editPublication(Publication pub){
+  private void editPublication(Publication pub){
     Stage stage = (Stage) btn.getScene().getWindow();
     String name = name_field.getText();
     String cost = cost_field.getText();
     Magazine mag = (Magazine) mag_field.getValue();
+    boolean result = confirm("Edit Publication", "Do you want to edit the current publication?");
 
-    if(!validate()){
+    if(!result || !validate()){
       return;
     }
     
@@ -225,17 +228,20 @@ class PopupController extends BaseController implements Initializable{
     String cost = cost_field.getText();
     Magazine mag = (Magazine) mag_field.getValue();
     
-    if(!Validator.match("[a-zA-Z0-9 @!#]+").validate(name)){
+    if(!Validator.match("[a-zA-Z0-9 @!#]+").validate(name) || Validator.blank().validate(name)){
+      name_field.requestFocus();
       alert("Invalid Field", "Name can only contain alpha-numeric characters, spacing, exclaimation point, @ symbol, and hashtag.");
       return false;
     }
     
     if(!Validator.isPositive().validate(cost)){
+      cost_field.requestFocus();
       alert("Invalid Field", "Cost cannot be negative or empty");
       return false;
     }
     
     if(isPublication(Supplement.class)&& mag == null){
+      mag_field.requestFocus();
       alert("Invalid Field", "A magazine needs to be selected");
       return false;
     }

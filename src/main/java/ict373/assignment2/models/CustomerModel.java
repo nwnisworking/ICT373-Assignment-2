@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * <p><strong>CustomerModel class</strong></p>
  * 
- * <p>Model for managing customers in the system.</p>
+ * <p>Model for storing customers in the system.</p>
  * 
  * <p>This class uses singleton pattern to ensure only one instance of CustomerModel exists.</p>
  */
@@ -31,7 +31,7 @@ public class CustomerModel extends BaseModel<Customer>{
     
     PublicationModel p_model = PublicationModel.getInstance();
 
-    // Refresh the publications for each customer so that modification to publications 
+    // Hydrate the publications for each customer so that modification to publications 
     // are reflected in the customer subscriptions.
     for(Customer cust : getData()){
       List<Publication> refreshed_data = cust

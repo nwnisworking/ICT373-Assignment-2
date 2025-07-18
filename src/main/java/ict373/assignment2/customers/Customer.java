@@ -6,7 +6,6 @@ import ict373.assignment2.utils.Identity;
 import java.io.Serializable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -57,6 +56,7 @@ public abstract class Customer implements Identity, Serializable{
     this.id = 0;
     this.name = "";
     this.email = "";
+    this.address = new Address();
   }
 
   /**
@@ -152,14 +152,6 @@ public abstract class Customer implements Identity, Serializable{
   }
 
   /**
-   * Add a subscription to the customer's list of subscriptions.
-   * @param publication Subscription to be added.
-   */
-  public void addPublication(Publication publication){
-    publications.add(publication);
-  }
-
-  /**
    * Remove a subscription from the list of subscriptions.
    * 
    * If the subscription is a magazine, supplements associated with the magazine will be deleted alongside.
@@ -170,37 +162,6 @@ public abstract class Customer implements Identity, Serializable{
 
     publications.removeIf(e->!publications.contains(publication) && e.isSupplement() && e.getMagazine().getId() == publication.getId());
   }
-
-  /**
-   * Get the available customer type.
-   * @param type The index which houses the available customer type.
-   * @return Returns a customer type. Otherwise, it throws a RuntimeException
-   */
-  public static Customer getType(int type){
-    switch(type){
-      case 0 : return new AssociateCustomer();
-      case 1 : return new PayingCustomer();
-      default : throw new RuntimeException("Customer type does not exist");
-    }
-  }
-
-  /**
-   * Filters customer based on a child of customer class
-   * @param <T>
-   * @param custs The customers in a collection 
-   * @param cls The class to filter for
-   * @return Result after filtering the class
-   */
-  public static <T> ArrayList<Customer> filterCustomer(Collection<Customer> custs, Class<T> cls){
-		ArrayList<Customer> list = new ArrayList<>();
-
-		for(Customer cust : custs){
-			if(cls.isInstance(cust))
-				list.add(cust);
-		}
-
-		return list;
-	}
 
   /**
    * Get the total cost of all the subscriptions.
@@ -214,14 +175,6 @@ public abstract class Customer implements Identity, Serializable{
     }
 
     return total;
-  }
-
-  /**
-   * Gets the subscription size 
-   * @return An integer value of the subscription size
-   */
-  public int getPublicationSize(){
-    return publications.size();
   }
   
   /**

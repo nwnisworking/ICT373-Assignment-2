@@ -138,7 +138,7 @@ public class CustomerController extends BaseController implements Initializable{
   /**
    * Opens a popup to add a new customer.
    */
-  public void addCustomerPage(){
+  private void addCustomerPage(){
     popup("Add Customer", "popups/customer.fxml", new PopupController(null, null));
   }
   
@@ -146,7 +146,7 @@ public class CustomerController extends BaseController implements Initializable{
    * Opens a popup to edit the details of a customer.
    * @param cust The customer whose details are to be edited.
    */
-  public void editCustomerPage(Customer cust){
+  private void editCustomerPage(Customer cust){
     popup("Edit Customer", "popups/customer.fxml", new PopupController(cust, "edit"));
   }
   
@@ -154,7 +154,7 @@ public class CustomerController extends BaseController implements Initializable{
    * Opens a popup to view the details of a customer.
    * @param cust The customer whose details are to be viewed.
    */
-  public void viewCustomerPage(Customer cust){
+  private void viewCustomerPage(Customer cust){
     popup("View Customer", "popups/customer.fxml", new PopupController(cust, "view"));
   }
   
@@ -162,7 +162,7 @@ public class CustomerController extends BaseController implements Initializable{
    * Deletes a customer from the model and updates the associations if necessary.
    * @param cust The customer to be deleted.
    */
-  public void deleteCustomer(Customer cust){
+  private void deleteCustomer(Customer cust){
     model.getData().remove(cust);
     
     if(cust instanceof AssociateCustomer){

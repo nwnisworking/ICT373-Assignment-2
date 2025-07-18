@@ -57,7 +57,7 @@ public class CustomerSubscription{
    * 
    * @return The cost of the subscription.
    */
-  public Double getCost(){
+  public double getCost(){
     return subscription.getCost();
   }
 

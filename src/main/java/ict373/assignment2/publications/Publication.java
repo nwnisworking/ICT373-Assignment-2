@@ -2,8 +2,6 @@ package ict373.assignment2.publications;
 
 import ict373.assignment2.utils.Identity;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * <p><strong>Publication class</strong></p>
@@ -160,38 +158,7 @@ public abstract class Publication implements Serializable, Identity{
   public String getSubscriptionType(){
     return getClass().getSimpleName();
   }
-  
-	/**
-   * Get the available subscription type.
-   * @param type The index which houses the available subscription type.
-   * @return Returns a subscription type. Otherwise, it throws a RuntimeException
-   */
-	public static Publication getType(int type){
-		switch(type){
-      case 0 : return new Supplement();
-      case 1 : return new Magazine();
-      default : throw new RuntimeException("Method type does not exist");
-    }
-	}
 
-	/**
-   * Filters subscription based on a child of subscription class
-   * @param <T>
-   * @param subs The subscription in a collection 
-   * @param cls The class to filter for
-   * @return Result after filtering the class
-   */
-	public static <T> ArrayList<Publication> filterSubscription(Collection<Publication> subs, Class<T> cls){
-		ArrayList<Publication> list = new ArrayList<>();
-
-		for(Publication sub : subs){
-			if(cls.isInstance(sub))
-				list.add(sub);
-		}
-
-		return list;
-	}
-  
 	/**
 	 * Get the representation of the publication as a string.
 	 * @return A string representation of the publication.

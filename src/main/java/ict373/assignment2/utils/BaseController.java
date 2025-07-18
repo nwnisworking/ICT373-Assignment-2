@@ -6,8 +6,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import ict373.assignment2.App;
+import java.util.Optional;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Modality;
@@ -60,6 +62,16 @@ public abstract class BaseController{
     alert.setContentText(content);
     
     alert.showAndWait();
+  }
+  
+  public boolean confirm(String header, String content){
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setHeaderText(header);
+    alert.setContentText(content);
+    
+    Optional<ButtonType> result = alert.showAndWait();
+    
+    return result.isPresent() && result.get() == ButtonType.OK;
   }
   
   /**

@@ -49,18 +49,6 @@ public class PayingCustomer extends Customer{
 	}
 
 	/**
-	 * Constructor for PayingCustomer class with payment method.
-	 * @param id Unique identifier for the customer.
-	 * @param name Name of the customer.
-	 * @param email Email address of the customer.
-	 * @param payment_method Payment method which the customer is using.
-	 */
-	public PayingCustomer(int id, String name, String email, Method payment_Method){
-		super(id, name, email);
-		this.payment_method = payment_Method;
-	}
-
-	/**
 	 * Add associate to the paying customer.
 	 * @param customer An associate customer.
 	 * @return True if associate does not have a payer, otherwise false.
@@ -144,13 +132,5 @@ public class PayingCustomer extends Customer{
 			total+= associate.getTotalCost();
 
 		return total;
-	}
-
-	/**
-	 * Get the size of the associates
-	 * @return Size of the associates
-	 */
-	public int getAssociateSize(){
-		return associates.size();
 	}
 }

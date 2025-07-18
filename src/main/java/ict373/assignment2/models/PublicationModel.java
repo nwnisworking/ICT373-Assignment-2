@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 /**
  * <p><strong>PublicationModel class</strong></p>
  * 
- * <p>Model for managing publications in the system.</p>
+ * <p>Model for storing publications in the system.</p>
  * 
  * <p>This class uses singleton pattern to ensure only one instance of PublicationModel exists.</p>
  * 

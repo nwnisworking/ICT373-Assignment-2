@@ -83,8 +83,14 @@ public class SubscriptionController extends BaseController implements Initializa
    */
   private final ObservableList<Publication> subscriptions;
   
+  /**
+   * Customer associated with this subscription controller.
+   */
   private final Customer customer;
 
+  /**
+   * Mode of the controller, either "edit" or "view".
+   */
   private final String mode;
   
   public SubscriptionController(Customer customer, String mode){
@@ -186,7 +192,7 @@ public class SubscriptionController extends BaseController implements Initializa
   /**
    * Opens a popup for adding a new publication (magazine or supplement).
    */
-  public void addPublicationPage(){
+  private void addPublicationPage(){
     popup("Magazine / Supplement selection", "popups/selection.fxml", new SelectionController(subscriptions));
   }
   

@@ -157,6 +157,18 @@ class PopupController extends BaseController implements Initializable{
   private HBox bank_name_row;
 
   /**
+   * Tab for display basic customer information.
+   */
+  @FXML
+  private Tab profile_tab;
+  
+  /**
+   * Tab for displaying address.
+   */
+  @FXML
+  private Tab address_tab;
+  
+  /**
    * Tab for displaying payment information, which is only visible for paying customers.
    */
   @FXML
@@ -344,10 +356,11 @@ class PopupController extends BaseController implements Initializable{
     String street_name = street_name_field.getText();
     String suburb = suburb_field.getText();
     PayingCustomer payer = (PayingCustomer) paying_customer_field.getValue();
+    boolean result = confirm("Add Customer", "Do you want to add a new customer?");
 
     int id = model.maxID() + 1;
 
-    if(!validate()){
+    if(!result || !validate()){
       return;
     }
     
@@ -371,8 +384,10 @@ class PopupController extends BaseController implements Initializable{
     else{
       AssociateCustomer ac = new AssociateCustomer(id, name, email);
       customer = ac;
-      
-      payer.addAssociate(ac);
+
+      if(payer != null){
+          payer.addAssociate(ac);
+      }
     }
     
     Address addr = new Address();
@@ -381,6 +396,8 @@ class PopupController extends BaseController implements Initializable{
     addr.setStreetNumber(Integer.parseInt(street_no));
     addr.setName(street_name);
     addr.setSuburb(suburb);
+    
+    customer.setAddress(addr);
     
     model.getData().add(customer);
     
@@ -399,8 +416,9 @@ class PopupController extends BaseController implements Initializable{
     String street_name = street_name_field.getText();
     String suburb = suburb_field.getText();
     PayingCustomer payer = (PayingCustomer) paying_customer_field.getValue();
+    boolean result = confirm("Edit Customer", "Do you want to edit the customer detail?");
 
-    if(!validate()){
+    if(!result || !validate()){
       return;
     }
     
@@ -462,33 +480,46 @@ class PopupController extends BaseController implements Initializable{
     String street_name = street_name_field.getText();
     String suburb = suburb_field.getText();
 
-    if(!Validator.match("^[a-zA-Z\'\\- ]+$").validate(name)){
-      alert("Invalid Field", "Name can only contain alphabet, apostrophe, spaces, or hyphen characters");
+    if(!Validator.match("^[a-zA-Z\'\\- ]+$").validate(name) || Validator.blank().validate(name)){
+      tab_pane.getSelectionModel().select(profile_tab);
+      name_field.requestFocus();
+      
+      alert("Invalid Field", "Name can only contain alphabet, apostrophe, spaces, or hyphen characters and cannot be blank");
       return false;
     }
     
     if(!Validator.isEmail().validate(email)){
+      tab_pane.getSelectionModel().select(profile_tab);
+      email_field.requestFocus();
       alert("Invalid Field", "The email provided is invalid.");
       return false;
     }
 
     if(Validator.blank().validate(street_name)){
+      tab_pane.getSelectionModel().select(address_tab);
+      street_name_field.requestFocus();
       alert("Invalid Field", "Street name is empty");
       return false;
     }
     
     if(Validator.blank().validate(suburb)){
+      tab_pane.getSelectionModel().select(address_tab);
+      suburb_field.requestFocus();
       alert("Invalid Field", "Suburb is empty");
       return false;
     }
     
     if(!Validator.isNumber().validate(street_no)){
+      tab_pane.getSelectionModel().select(address_tab);
+      street_no_field.requestFocus();
       alert("Invalid Field", "Street number must be a number");
       return false;
     }
     
     if(!Validator.isNumber().validate(postal_code)){
-      alert("Invalid Field", "Postal code must not be negative");
+      tab_pane.getSelectionModel().select(address_tab);
+      postal_code_field.requestFocus();
+      alert("Invalid Field", "Postal code must be a number");
       return false;
     }
     
@@ -498,11 +529,15 @@ class PopupController extends BaseController implements Initializable{
         String exp_date = exp_date_field.getText();
         
         if(Validator.blank().validate(cardno)){
+          tab_pane.getSelectionModel().select(payment_info_tab);
+          card_no_field.requestFocus();
           alert("Invalid Field", "Card number is empty");
           return false;
         }
         
         if(Validator.blank().validate(exp_date)){
+          tab_pane.getSelectionModel().select(payment_info_tab);
+          exp_date_field.requestFocus();
           alert("Invalid Field", "Expiry date is empty");
           return false;
         }
@@ -512,11 +547,15 @@ class PopupController extends BaseController implements Initializable{
         String accno = acc_no_field.getText();
         
         if(Validator.blank().validate(accno)){
+          tab_pane.getSelectionModel().select(payment_info_tab);
+          acc_no_field.requestFocus();
           alert("Invalid Field", "Account number is empty");
           return false;
         }
         
         if(Validator.blank().validate(bnk_name)){
+          tab_pane.getSelectionModel().select(payment_info_tab);
+          bank_name_field.requestFocus();
           alert("Invalid Field", "Bank name is empty");
           return false;
         }
@@ -645,6 +684,7 @@ class PopupController extends BaseController implements Initializable{
    */
   private void disableAllFields(){
     disableInputElement(name_field, true);
+    disableInputElement(email_field, true);
     disableInputElement(street_no_field, true);
     disableInputElement(postal_code_field, true);
     disableInputElement(street_name_field, true);

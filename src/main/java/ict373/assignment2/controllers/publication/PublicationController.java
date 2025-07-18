@@ -141,7 +141,7 @@ public class PublicationController extends BaseController implements Initializab
   /**
    * Opens a popup for adding a new publication.
    */
-  public void addPublicationPage(){
+  private void addPublicationPage(){
     popup("Add Publication", "popups/publication.fxml", new PopupController(null, null));
   }
   
@@ -149,7 +149,7 @@ public class PublicationController extends BaseController implements Initializab
    * Opens a popup for editing an existing publication.
    * @param pub the publication to be edited
    */
-  public void editPublicationPage(Publication pub){
+  private void editPublicationPage(Publication pub){
     popup("Edit Publication", "popups/publication.fxml", new PopupController(pub, "edit"));
   }
   
@@ -157,7 +157,7 @@ public class PublicationController extends BaseController implements Initializab
    * Opens a popup for viewing a publication.
    * @param pub the publication to be viewed
    */
-  public void viewPublicationPage(Publication pub){
+  private void viewPublicationPage(Publication pub){
     popup("View Publication", "popups/publication.fxml", new PopupController(pub, "view"));
   }
   
@@ -165,7 +165,7 @@ public class PublicationController extends BaseController implements Initializab
    * Deletes a publication from the model and updates the customer subscriptions.
    * @param pub the publication to be deleted
    */
-  public void deletePublication(Publication pub){
+  private void deletePublication(Publication pub){
     model.getData().removeIf(e->e.equals(pub) || (e.isSupplement() && pub.equals(e.getMagazine())));
     CustomerModel.getInstance().getData().forEach(e->e.removeSubscription(pub));
   }
