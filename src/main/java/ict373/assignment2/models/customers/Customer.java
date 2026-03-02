@@ -110,7 +110,7 @@ public abstract class Customer implements Serializable{
     }
 
     public String getType(){
-      return getClass().getSimpleName();
+      return this instanceof PayingCustomer ? "Paying" : "Associate";
     }
     
     @Override
