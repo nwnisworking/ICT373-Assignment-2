@@ -1,0 +1,41 @@
+.title-bar{
+  -fx-background-color: #2d2d2d;
+  -fx-padding: 5 10 5 10;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 5, 0, 0, 2);
+}
+
+.title-bar .title-label{
+  -fx-text-fill: white;
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+}
+
+.title-bar .title-button-container{
+  -fx-spacing: 5;
+  -fx-alignment: CENTER_RIGHT;
+}
+
+.title-bar .title-button{
+  -fx-background-color: transparent;
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+  -fx-pref-width: 30px;
+  -fx-pref-height: 25px;
+  -fx-cursor: hand;
+  -fx-border-radius: 3;
+  -fx-background-radius: 3;
+  -fx-padding: 0;
+}
+
+.title-bar .title-button:hover{
+  -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+.title-bar .title-button:pressed{
+  -fx-background-color: rgba(255, 255, 255, 0.5);
+}
+
+.title-bar .title-button:last-child:hover{
+  -fx-background-color: #ff4d4d;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root 
+  type="BorderPane"
+  xmlns:fx="http://javafx.com/fxml/1" 
+  styleClass="title-bar"
+>
+  <stylesheets>
+    <URL value="@TitleBar.css" />
+  </stylesheets>
+  <center>
+    <Label fx:id="title_label" styleClass="title-label" />
+  </center>
+  <right>
+    <HBox styleClass="title-button-container" >
+      <Button text="—" styleClass="title-button" fx:id="minimize_btn" />
+      <Button text="☐" styleClass="title-button" fx:id="maximize_btn" />
+      <Button text="✕" styleClass="title-button" fx:id="close_btn" />
+    </HBox>
+  </right>
+</fx:root>

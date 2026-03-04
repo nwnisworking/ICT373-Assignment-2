@@ -1,0 +1,11 @@
+#window{
+    -fx-background-color: #1c1c1c;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 0);
+}
+
+/*#progress-bar{
+    -fx-accent: #3498db;
+    -fx-control-inner-background: rgba(0, 0, 0, 0.8);
+    -fx-border-width: 1;
+    -fx-box-border: transparent;
+}*/
