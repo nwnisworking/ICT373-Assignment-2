@@ -1,0 +1,12 @@
+.input-field{
+  -fx-alignment: CENTER_LEFT;
+}
+
+.input-field .text-label{
+  -fx-alignment: CENTER_LEFT;
+  -fx-pref-width: 100px;
+}
+
+.input-field .input-field.highlight{
+  -fx-border-color: red;
+}
