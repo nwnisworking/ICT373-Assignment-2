@@ -34,6 +34,6 @@ public class SelectInputField<T> extends InputField<T, ComboBox<T>>{
   @Override
   public void reset(){
     setDisable(false);
-    input.getSelectionModel().clearSelection();
+    input.getSelectionModel().clearAndSelect(0);
   }
 }
