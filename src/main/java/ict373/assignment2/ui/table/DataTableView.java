@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 
 public class DataTableView<S> extends TableView<S>{
   public enum Button{
+    NONE,
     EDIT,
     DELETE,
     ALL;
@@ -33,11 +34,11 @@ public class DataTableView<S> extends TableView<S>{
     action_column.setCellFactory(param -> {
       ActionCell<S> cell = new ActionCell<>();
       
-      cell.displayButton(show.getValue());
+      cell.showProperty().bind(show);
       
       return cell;
     });
-    
+
     addEventHandler(ButtonEvent.BUTTON_EVENT, e -> {
       EventHandler<ButtonEvent<S>> handler = on_button_clicked.getValue();
       
