@@ -52,6 +52,11 @@ public class CustomerController implements Initializable{
     
     detail.setUserData(this);
     
+    header.visibleProperty().bind(header.managedProperty());
+    table.visibleProperty().bind(table.managedProperty());
+    pagination.visibleProperty().bind(pagination.managedProperty());
+    detail.visibleProperty().bind(detail.managedProperty());
+    
     updatePagination();
   }
   
@@ -92,22 +97,15 @@ public class CustomerController implements Initializable{
   }
   
   public void displayDetail(boolean show){
-		header.setVisible(!show);
 		header.setManaged(!show);
-		
-		table.setVisible(!show);
 		table.setManaged(!show);
-		
-		pagination.setVisible(!show);
 		pagination.setManaged(!show);
-		
-		detail.setVisible(show);
 		detail.setManaged(show);
 	}
   
   public void loadDetail(Customer customer, String mode){
     displayDetail(true);
-		detailController.loadDetail(customer, mode);
+		detailController.load(customer, mode);
 	}
   
 	public void updatePagination(){
