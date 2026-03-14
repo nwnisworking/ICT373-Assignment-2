@@ -2,6 +2,8 @@ package ict373.assignment2.ui;
 
 import ict373.assignment2.events.ButtonEvent;
 import ict373.assignment2.ui.table.DataTableView;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -14,6 +16,8 @@ public class ActionCell<T> extends TableCell<T, Void>{
     
   private final HBox container = new HBox(10, edit_btn, delete_btn);
 
+  private final ObjectProperty<DataTableView.Button> show = new SimpleObjectProperty<>(DataTableView.Button.ALL);
+  
   public ActionCell(){
     container.setAlignment(Pos.CENTER);
 
@@ -23,11 +27,12 @@ public class ActionCell<T> extends TableCell<T, Void>{
     edit_btn.getStyleClass().addAll("btn", "blue");
     delete_btn.getStyleClass().addAll("btn", "red");
     
+    
     edit_btn.visibleProperty().bind(edit_btn.managedProperty());
     delete_btn.visibleProperty().bind(delete_btn.managedProperty());
   }
   
-  public void displayButton(DataTableView.Button button){
+  private void displayButton(DataTableView.Button button){
     edit_btn.setManaged(false);
     delete_btn.setManaged(false);
     
@@ -39,6 +44,18 @@ public class ActionCell<T> extends TableCell<T, Void>{
         delete_btn.setManaged(true);
       }
     }
+  }
+  
+  public void setShow(DataTableView.Button button){
+    show.setValue(button);
+  }
+  
+  public DataTableView.Button getShow(){
+    return show.getValue();
+  }
+  
+  public ObjectProperty<DataTableView.Button> showProperty(){
+    return show;
   }
     
   @Override
@@ -58,6 +75,7 @@ public class ActionCell<T> extends TableCell<T, Void>{
       });
     }
     
+    if(!empty) displayButton(show.getValue());
     setGraphic(empty ? null : container);
   }
 }
