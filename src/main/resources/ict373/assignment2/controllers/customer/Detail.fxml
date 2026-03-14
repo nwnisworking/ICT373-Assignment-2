@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import java.net.*?>
+<?import ict373.assignment2.ui.inputs.* ?>
+<?import ict373.assignment2.ui.table.* ?>
+
+<BorderPane
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:id="detail_panel"
+	styleClass="detail-panel"
+	visible="false"
+	managed="false"
+  fx:controller="ict373.assignment2.controllers.customer.CustomerDetailController"
+>
+  <top>
+    <BorderPane styleClass="header">
+      <left>
+        <Label fx:id="detail_title" styleClass="detail-title" />
+      </left>
+      <right>
+        <HBox>
+          <Button 
+            styleClass="gray"
+            fx:id="back_btn"
+            text="Back"
+            onMouseClicked="#back" 
+          />
+          <Button 
+            styleClass="blue"
+            fx:id="save_btn"
+            text="Save"
+            onMouseClicked="#save" 
+          />
+        </HBox>
+      </right>
+    </BorderPane>
+  </top>
+	<center>
+		<TabPane fx:id="detail_tabpane" tabClosingPolicy="UNAVAILABLE">
+			 <Tab text="Profile" fx:id="profile_tab">
+				<GridPane>
+          <TextInputField label="Name:" fx:id="name_field" GridPane.rowIndex="0" />
+          <TextInputField label="Email:" fx:id="email_field" GridPane.rowIndex="1" />
+          <SelectInputField label="Type:" fx:id="type_field" value="Paying Customer" GridPane.rowIndex="2">
+						<items>
+							<FXCollections fx:factory="observableArrayList">
+								<String fx:value="Paying Customer"/>
+								<String fx:value="Associate Customer"/>
+							</FXCollections>
+						</items>
+          </SelectInputField>
+          <SelectInputField label="Payer:" fx:id="payer_field" GridPane.rowIndex="3" />
+				</GridPane>
+			</Tab>
+			<Tab text="Address" fx:id="address_tab">
+				<GridPane styleClass="grid-detail">
+					<TextInputField fx:id="street_name_field" label="Street Name:" GridPane.rowIndex="0" />
+          <TextInputField fx:id="block_field" label="Block Number:" GridPane.rowIndex="1" />
+          <TextInputField fx:id="postal_field" label="Postal Code:" GridPane.rowIndex="2" />
+          <TextInputField fx:id="unit_number_field" label="Unit Number:" GridPane.rowIndex="3" />
+				</GridPane>
+			</Tab>
+      <Tab text="Payment" fx:id="payment_tab">
+				<GridPane styleClass="grid-detail">
+					<SelectInputField fx:id="payment_method_field" label="Payment Method:" value="Credit Card" GridPane.rowIndex="0">
+						<items>
+							<FXCollections fx:factory="observableArrayList">
+								<String fx:value="Credit Card"/>
+								<String fx:value="Direct Debit"/>
+							</FXCollections>
+						</items>
+					</SelectInputField>
+
+					<TextInputField fx:id="card_number_field" label="Card Number:" GridPane.rowIndex="1" />
+					<DateInputField fx:id="expiry_date_field" label="Expiry Date:" GridPane.rowIndex="2" />
+
+					<TextInputField fx:id="account_number_field" label="Account Number:" GridPane.rowIndex="1" />
+					<TextInputField fx:id="bank_name_field" label="Bank Name:" GridPane.rowIndex="2" />
+				</GridPane>
+			</Tab>
+      <Tab text="Associates" fx:id="associate_tab">
+        <GridPane>
+          <DataTableView 
+            fx:id="associate_table" 
+            show="DELETE"
+            onButtonClicked="#deleteAssociateCustomer"
+          >
+            <columns>
+              <PropertyColumn property="id" text="ID" fx:id="id_column"/>
+              <PropertyColumn property="name" text="Name" fx:id="name_column"/>
+              <PropertyColumn property="email" text="Email" fx:id="email_column"/>
+              <PropertyColumn property="type" text="Type" fx:id="type_column"/>
+            </columns>
+          </DataTableView>
+        </GridPane>
+      </Tab>
+		</TabPane>
+	</center>
+</BorderPane>

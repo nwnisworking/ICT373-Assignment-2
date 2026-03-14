@@ -1,0 +1,32 @@
+/**
+ * Layout.css 
+ * 
+ * Layout contains the CSS for Detail, Index, and Table FXML.
+ */
+.header, .container{
+  -fx-padding: 10 15 10 15;
+  -fx-spacing: 10;
+}
+
+.header Label{
+  -fx-font-size: 18;
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+}
+
+.header HBox{
+  -fx-spacing: 10;
+}
+
+.container TableView{
+  -fx-vbar-policy: always;
+}
+
+.container GridPane{
+  -fx-hgap: 12;
+  -fx-vgap: 12;
+}
+
+.container .text-label{
+  -fx-text-fill: white;
+}

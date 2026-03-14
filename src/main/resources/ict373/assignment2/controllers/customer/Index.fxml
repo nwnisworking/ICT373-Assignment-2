@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ict373.assignment2.ui.table.* ?>
+
+<StackPane
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="ict373.assignment2.controllers.customer.CustomerController"
+>
+  <BorderPane fx:id="content">
+    <stylesheets>
+      <URL value="@../Layout.css" />
+    </stylesheets>
+    <top>
+      <HBox styleClass="header" fx:id="header">
+        <TextField onKeyReleased="#searchCustomer" />
+        <Button styleClass="btn, blue" text="Add Customer" onMouseClicked="#addCustomer" />
+      </HBox>
+    </top>
+    <center>
+      <VBox styleClass="container">
+        <DataTableView 
+          fx:id="table" 
+          onButtonClicked="#buttonClicked" 
+          onRowClicked="#rowClicked" 
+          show="ALL"
+        >
+          <columns>
+            <PropertyColumn property="id" text="ID" fx:id="id_column"/>
+            <PropertyColumn property="name" text="Name" fx:id="name_column"/>
+            <PropertyColumn property="email" text="Email" fx:id="email_column"/>
+            <PropertyColumn property="type" text="Type" fx:id="type_column"/>
+          </columns>
+        </DataTableView>
+        <Pagination fx:id="pagination" pageCount="1" id="pagination" />
+        <fx:include fx:id="detail" source="Detail.fxml" />
+      </VBox>
+    </center>
+  </BorderPane>
+</StackPane>
