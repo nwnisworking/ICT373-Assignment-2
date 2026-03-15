@@ -129,7 +129,7 @@ public class CustomerDetailController implements Initializable{
     );
     
     boolean disabled = false;
-    customer = this.customer;
+    this.customer = customer;
     
     switch(action){
       case "Add" : return;
@@ -208,7 +208,7 @@ public class CustomerDetailController implements Initializable{
       }
     }
     
-    if(customer == null){
+    if(is_new){
       customer = switch(profile.type().getValue()){
         case "Paying Customer" -> new PayingCustomer();
         case "Associate Customer" -> new AssociateCustomer();
