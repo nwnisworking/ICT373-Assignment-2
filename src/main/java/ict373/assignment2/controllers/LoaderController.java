@@ -22,13 +22,15 @@ import javafx.util.Duration;
  * 
  * <p>The LoaderController is responsible for loading the necessary services when the application starts.</p>
  *
- * @author nwnis
+ * @author nwnisworking
+ * @date 4/3/2026
+ * @filename LoaderController.java
  */
 public class LoaderController implements Initializable{
 	/**
 	 * The name of the file used to store serialized data for customers, publications, and subscriptions.
 	 */
-	private static final String DATA = "data.ser";
+	public static final String DATA = "data.ser";
 
 	/** 
 	 * The progress bar to indicate loading progress
@@ -122,7 +124,7 @@ public class LoaderController implements Initializable{
 		fade_transition.setToValue(0);
 		fade_transition.play();
 
-		fade_transition.setOnFinished(e ->{
+		fade_transition.setOnFinished(e -> {
 			content.getChildren().remove(progress_bar);
 			content.getChildren().add(App.loadFXML("Home", null));
 		});
