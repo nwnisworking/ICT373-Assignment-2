@@ -52,7 +52,7 @@ public class HomeController implements Initializable{
 
     switch(new_value){
       case "Customers" -> node = App.loadFXML("controllers/customer/Index", null);
-      case "Publications" -> System.out.println("Publications");
+      case "Publications" -> node = App.loadFXML("controllers/publication/Index", null);
       case "Subscriptions" -> System.out.println("Subscription");
     }
 
