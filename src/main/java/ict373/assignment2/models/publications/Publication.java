@@ -97,6 +97,10 @@ public abstract class Publication implements Serializable{
   public double getCost(){
     return cost;
   }
+  
+  public String getType(){
+    return getClass().getSimpleName();
+  }
 
   /**
    * Return the name of the publication for display purposes.
