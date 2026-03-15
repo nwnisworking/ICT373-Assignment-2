@@ -1,11 +1,14 @@
 package ict373.assignment2.controllers;
 
 import ict373.assignment2.App;
+import ict373.assignment2.events.WindowEvent;
 import ict373.assignment2.services.*;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
@@ -52,6 +55,8 @@ public class LoaderController implements Initializable{
 		content.getChildren().add(progress_bar);
 
 		loadServices();
+
+		content.getParent().addEventHandler(WindowEvent.CLOSE, this::saveData);
 	}
 
 	/**
@@ -95,6 +100,10 @@ public class LoaderController implements Initializable{
 
 						SubscriptionService.getInstance().read(input);
 						updateProgress(3, 3);
+
+						input.close();
+
+						System.out.println("[Loader]: File exist. Loading data from " + DATA);
 					}
 
 				}
@@ -115,9 +124,31 @@ public class LoaderController implements Initializable{
 	}
 
 	/**
+	 * Save the current state of the services to a file when the application is closed.
+	 * @param event The window event that triggered the save action
+	 */
+	private void saveData(WindowEvent event){
+    try{
+      File file = new File(DATA);
+      ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(file));
+      
+      CustomerService.getInstance().write(output);
+      PublicationService.getInstance().write(output);
+      SubscriptionService.getInstance().write(output);
+      
+      output.flush();
+      output.close();
+      System.out.println("[Loader]: Write to file.");
+    }
+    catch(IOException ex){
+      System.out.println("[Loader]: Unable to write to file.");
+    }
+	}
+
+	/**
 	 * Load the main content of the application after the services have been loaded.
 	 */
-	protected void loadContent(){
+	private void loadContent(){
 		FadeTransition fade_transition = new FadeTransition(Duration.millis(800), progress_bar);
 
 		fade_transition.setFromValue(1);
