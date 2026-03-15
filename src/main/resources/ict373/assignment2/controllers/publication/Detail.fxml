@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import java.net.*?>
+<?import ict373.assignment2.ui.inputs.* ?>
+<?import ict373.assignment2.ui.table.* ?>
+
+<BorderPane
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:id="detail_panel"
+	styleClass="detail-panel"
+	visible="false"
+	managed="false"
+  fx:controller="ict373.assignment2.controllers.publication.PublicationDetailController"
+>
+  <top>
+    <BorderPane styleClass="header">
+      <left>
+        <Label fx:id="detail_title" styleClass="detail-title" />
+      </left>
+      <right>
+        <HBox>
+          <Button 
+            styleClass="gray"
+            fx:id="back_btn"
+            text="Back"
+            onMouseClicked="#back" 
+          />
+          <Button 
+            styleClass="blue"
+            fx:id="save_btn"
+            text="Save"
+            onMouseClicked="#save" 
+          />
+        </HBox>
+      </right>
+    </BorderPane>
+  </top>
+	<center>
+		<GridPane>
+      <TextInputField label="Name:" fx:id="name_field" GridPane.rowIndex="0" />
+      <TextInputField label="Cost" fx:id="cost_field" GridPane.rowIndex="1" />
+      <SelectInputField label="Type:" fx:id="type_field" value="Magazine" GridPane.rowIndex="2">
+        <items>
+          <FXCollections fx:factory="observableArrayList">
+            <String fx:value="Magazine"/>
+            <String fx:value="Supplement"/>
+          </FXCollections>
+        </items>
+      </SelectInputField>
+      <SelectInputField label="Magazine:" fx:id="magazine_field" GridPane.rowIndex="3" />
+    </GridPane>
+	</center>
+</BorderPane>
