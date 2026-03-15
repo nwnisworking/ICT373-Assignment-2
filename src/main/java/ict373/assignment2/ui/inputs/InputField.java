@@ -110,6 +110,35 @@ public abstract class InputField<T, C extends Control> extends HBox{
     return true;
   }
   
+  public boolean isDouble(){
+    String num = (String) getValue();
+
+    if(num == null || num.isEmpty())
+      return false;
+
+    boolean hasDecimal = false;
+
+    for(int i = 0; i < num.length(); i++){
+      char c = num.charAt(i);
+
+      if(i == 0 && (c == '+' || c == '-'))
+        continue;
+
+      if(c == '.'){
+        if(hasDecimal)
+          return false;
+        hasDecimal = true;
+        continue;
+      }
+
+      if(c < '0' || c > '9')
+        return false;
+    }
+
+    return true;
+
+  }
+  
   public ObjectProperty<T> valueProperty(){
     return value;
   }
