@@ -13,6 +13,15 @@ import javafx.util.Duration;
 
 /**
  * <strong>InputField abstract class</strong>
+ * 
+ * <p>The InputField class is an abstract base class for various types of input fields in the application. 
+ * It merges both the label and input control into a single component to form a unit for user input.</p>
+ * 
+ * @author nwnisworking
+ * @date 9/3/2026
+ * @filename InputField.java
+ * @param <T> The type of the value that the input field holds.
+ * @param <C> The type of the input control used for this input field, which must extend Control.
  */
 public abstract class InputField<T, C extends Control> extends HBox{
   /**
@@ -26,12 +35,26 @@ public abstract class InputField<T, C extends Control> extends HBox{
    */
   protected C input;
 
+  /**
+   * The label property for the input field, which is used to bind the text of the label.
+   */
   protected final StringProperty label = new SimpleStringProperty();
 
+  /**
+   * The value property for the input field, which is used to bind the value of the input.
+   */
   protected final ObjectProperty<T> value = new SimpleObjectProperty<>();
   
+  /**
+   * Tooltip for displaying validation messages or additional information about the input field.
+   */
   protected Tooltip tooltip = new Tooltip();
   
+  /**
+   * Constructs an InputField with the specified input control.
+   * 
+   * @param input The input control to be used for this input field.
+   */
   public InputField(C input){
     App.loadFXML("ui/InputField", this);
 
@@ -45,28 +68,58 @@ public abstract class InputField<T, C extends Control> extends HBox{
     getChildren().add(input);
   }
 
+  /**
+   * Set the label text for the input field.
+   * 
+   * @param text The text to set as the label for the input field.
+   */
   public void setLabel(String text){
     this.label.setValue(text);
   }
 
+  /**
+   * Get the label text of the input field.
+   * 
+   * @return The label text of the input field.
+   */
   public String getLabel(){
     return label.getValue();
   }
 
+  /**
+   * Set the value of the input field.
+   * 
+   * @param value The value to set for the input field.
+   */
   public void setValue(T value){
     this.value.setValue(value);
   }
 
+  /**
+   * Get the value of the input field.
+   * 
+   * @return The value of the input field.
+   */
   public T getValue(){
     return value.getValue();
   }
 
+  /**
+   * Check if the input field is empty. An input field is considered empty if its value is null or, in the case of a string, blank.
+   * 
+   * @return true if the input field is empty, false otherwise.
+   */
   public boolean isEmpty(){
     T val = getValue();
     
     return val == null || (val instanceof String s && s.isBlank());
   }
   
+  /**
+   * Display a tooltip with the provided text near the input field.
+   * 
+   * @param text The text to display in the tooltip.
+   */
   public void displayTooltip(String text){
     tooltip.setText(text);
     
@@ -91,57 +144,16 @@ public abstract class InputField<T, C extends Control> extends HBox{
     transition.play();
   }
   
-  public boolean isNumber(){
-    // I was thinking of using try-catch but this solution is more efficient since it does not involve using exceptions.
-    // https://stackoverflow.com/a/29331473
-    
-    String num = (String) getValue();
-    
-    if(num == null || num.isEmpty())
-      return false;
-    
-    for(int i = 0; i < num.length(); i++){
-      char c = num.charAt(i);
-
-      if(c < '0' || c > '9')
-        return false;
-    }
-    
-    return true;
-  }
-  
-  public boolean isDouble(){
-    String num = (String) getValue();
-
-    if(num == null || num.isEmpty())
-      return false;
-
-    boolean hasDecimal = false;
-
-    for(int i = 0; i < num.length(); i++){
-      char c = num.charAt(i);
-
-      if(i == 0 && (c == '+' || c == '-'))
-        continue;
-
-      if(c == '.'){
-        if(hasDecimal)
-          return false;
-        hasDecimal = true;
-        continue;
-      }
-
-      if(c < '0' || c > '9')
-        return false;
-    }
-
-    return true;
-
-  }
-  
+  /**
+   * Get the value property of the input field.
+   * @return The value property of the input field.
+   */
   public ObjectProperty<T> valueProperty(){
     return value;
   }
 
+  /**
+   * Reset the input field to its default state.
+   */
   public abstract void reset();
 }
