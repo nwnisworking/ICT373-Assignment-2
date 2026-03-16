@@ -18,7 +18,8 @@
   -fx-spacing: 10;
 }
 
-.container TableView{
+.container TableView,
+.container DataTableView{
   -fx-vbar-policy: always;
 }
 
@@ -30,3 +31,4 @@
 .container .text-label{
   -fx-text-fill: white;
 }
+
