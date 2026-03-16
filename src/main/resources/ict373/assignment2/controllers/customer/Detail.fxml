@@ -23,18 +23,8 @@
       </left>
       <right>
         <HBox>
-          <Button 
-            styleClass="gray"
-            fx:id="back_btn"
-            text="Back"
-            onMouseClicked="#back" 
-          />
-          <Button 
-            styleClass="blue"
-            fx:id="save_btn"
-            text="Save"
-            onMouseClicked="#save" 
-          />
+          <Button styleClass="gray" fx:id="back_btn" text="Back" onMouseClicked="#back" />
+          <Button styleClass="blue" fx:id="save_btn" text="Save" onMouseClicked="#save" />
         </HBox>
       </right>
     </BorderPane>
@@ -57,7 +47,7 @@
 				</GridPane>
 			</Tab>
 			<Tab text="Address" fx:id="address_tab">
-				<GridPane styleClass="grid-detail">
+				<GridPane>
 					<TextInputField fx:id="street_name_field" label="Street Name:" GridPane.rowIndex="0" />
           <TextInputField fx:id="block_field" label="Block Number:" GridPane.rowIndex="1" />
           <TextInputField fx:id="postal_field" label="Postal Code:" GridPane.rowIndex="2" />
@@ -65,7 +55,7 @@
 				</GridPane>
 			</Tab>
       <Tab text="Payment" fx:id="payment_tab">
-				<GridPane styleClass="grid-detail">
+				<GridPane>
 					<SelectInputField fx:id="payment_method_field" label="Payment Method:" value="Credit Card" GridPane.rowIndex="0">
 						<items>
 							<FXCollections fx:factory="observableArrayList">
@@ -83,20 +73,14 @@
 				</GridPane>
 			</Tab>
       <Tab text="Associates" fx:id="associate_tab">
-        <GridPane>
-          <DataTableView 
-            fx:id="associate_table" 
-            show="DELETE"
-            onButtonClicked="#deleteAssociateCustomer"
-          >
-            <columns>
-              <PropertyColumn property="id" text="ID" fx:id="id_column"/>
-              <PropertyColumn property="name" text="Name" fx:id="name_column"/>
-              <PropertyColumn property="email" text="Email" fx:id="email_column"/>
-              <PropertyColumn property="type" text="Type" fx:id="type_column"/>
-            </columns>
-          </DataTableView>
-        </GridPane>
+        <DataTableView fx:id="associate_table" show="DELETE">
+          <columns>
+            <PropertyColumn property="id" text="ID" fx:id="id_column"/>
+            <PropertyColumn property="name" text="Name" fx:id="name_column"/>
+            <PropertyColumn property="email" text="Email" fx:id="email_column"/>
+            <PropertyColumn property="type" text="Type" fx:id="type_column"/>
+          </columns>
+        </DataTableView>
       </Tab>
 		</TabPane>
 	</center>
