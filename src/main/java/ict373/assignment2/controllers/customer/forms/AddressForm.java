@@ -1,17 +1,17 @@
-package ict373.assignment2.controllers.customer.tabs;
+package ict373.assignment2.controllers.customer.forms;
 
 import ict373.assignment2.models.Address;
-import ict373.assignment2.TabRecord;
+import ict373.assignment2.FormRecord;
 import ict373.assignment2.ui.inputs.InputField;
 import ict373.assignment2.ui.inputs.TextInputField;
 import java.util.List;
 
-public record AddressTab(
+public record AddressForm(
   TextInputField street,
   TextInputField block,
   TextInputField postal,
   TextInputField unit
-) implements TabRecord<Address>{
+) implements FormRecord<Address>{
   @Override
   public List<InputField<?, ?>> fields(){
     return List.of(street, block, postal, unit);

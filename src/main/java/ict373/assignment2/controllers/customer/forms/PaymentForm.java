@@ -1,19 +1,19 @@
-package ict373.assignment2.controllers.customer.tabs;
+package ict373.assignment2.controllers.customer.forms;
 
-import ict373.assignment2.TabRecord;
+import ict373.assignment2.FormRecord;
 import ict373.assignment2.models.payments.CreditCard;
 import ict373.assignment2.models.payments.DirectDebit;
 import ict373.assignment2.models.payments.Method;
 import ict373.assignment2.ui.inputs.*;
 import java.util.List;
 
-public record PaymentTab(
+public record PaymentForm(
   SelectInputField<String> method,
   TextInputField card_number,
   DateInputField expiry_date,
   TextInputField account_number,
   TextInputField bank_name
-) implements TabRecord<Method>{
+) implements FormRecord<Method>{
   @Override
   public List<InputField<?, ?>> fields(){
     return List.of(method, card_number, expiry_date, account_number, bank_name);

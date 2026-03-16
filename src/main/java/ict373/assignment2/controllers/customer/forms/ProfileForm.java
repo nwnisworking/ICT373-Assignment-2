@@ -1,17 +1,17 @@
-package ict373.assignment2.controllers.customer.tabs;
+package ict373.assignment2.controllers.customer.forms;
 
-import ict373.assignment2.TabRecord;
+import ict373.assignment2.FormRecord;
 import ict373.assignment2.ui.inputs.*;
 import ict373.assignment2.models.customers.*;
 import java.util.List;
 
 
-public record ProfileTab(
+public record ProfileForm(
   TextInputField name,
   TextInputField email,
   SelectInputField<String> type,
   SelectInputField<Customer> payer
-) implements TabRecord<Customer>{
+) implements FormRecord<Customer>{
   @Override
   public List<InputField<?, ?>> fields(){
     return List.of(name, email, type, payer);

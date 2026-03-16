@@ -1,16 +1,16 @@
-package ict373.assignment2.controllers.publication.tabs;
+package ict373.assignment2.controllers.publication.forms;
 
-import ict373.assignment2.TabRecord;
+import ict373.assignment2.FormRecord;
 import ict373.assignment2.models.publications.*;
 import ict373.assignment2.ui.inputs.*;
 import java.util.List;
 
-public record DetailTab(
+public record DetailForm(
   TextInputField name,
   TextInputField cost,
   SelectInputField<String> type,
   SelectInputField<Publication> magazine
-) implements TabRecord<Publication>{
+) implements FormRecord<Publication>{
   public List<InputField<?, ?>> fields(){
     return List.of(name, cost, type, magazine);
   }
