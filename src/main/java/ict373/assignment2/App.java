@@ -63,6 +63,7 @@ public class App extends Application{
       return fxmlLoader.load();
     }
     catch(IOException ex){
+      ex.printStackTrace();
       System.out.println("[App]: Unable to load FXML for Node");
     }
     
