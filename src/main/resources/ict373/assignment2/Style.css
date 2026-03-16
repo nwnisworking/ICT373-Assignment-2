@@ -223,6 +223,29 @@
   -fx-text-fill: white;
 }
 
+/**
+ * Table view adding filler when scroll exists.
+ * https://stackoverflow.com/questions/78655650/tableview-style-scrollbar-filler-column-area
+ */
+.table-view .filler{
+  -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar:vertical{
+  -fx-background-color: transparent;
+  -fx-pref-width: 10px;
+
+}
+
+.table-view .scroll-bar:vertical .track{
+  -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar:vertical .thumb{
+  -fx-background-color: white;
+  -fx-background-radius: 5px;
+  -fx-background-insets: 0 3 0 3;
+}
 /** Tabpane styling */
 .tab-pane .tab-header-background{
 	-fx-background-color: transparent;
