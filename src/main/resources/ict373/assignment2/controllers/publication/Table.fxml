@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ict373.assignment2.ui.table.* ?>
+
+<DataTableView 
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:id="table" 
+  show="ALL"
+>
+  <columns>
+    <PropertyColumn property="id" text="ID" fx:id="id_column"/>
+    <PropertyColumn property="name" text="Name" fx:id="name_column"/>
+    <PropertyColumn property="cost" text="Cost" fx:id="email_column"/>
+    <PropertyColumn property="type" text="Type" fx:id="type_column"/>
+  </columns>
+</DataTableView>

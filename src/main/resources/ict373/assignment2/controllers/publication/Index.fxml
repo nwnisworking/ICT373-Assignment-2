@@ -8,38 +8,25 @@
 <?import javafx.scene.layout.*?>
 <?import ict373.assignment2.ui.table.* ?>
 
-<StackPane
+<BorderPane
+  fx:id="content"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="ict373.assignment2.controllers.publication.PublicationController"
 >
-  <BorderPane fx:id="content">
-    <stylesheets>
-      <URL value="@../Layout.css" />
-    </stylesheets>
-    <top>
-      <HBox styleClass="header" fx:id="header">
-        <TextField onKeyReleased="#searchPublication" />
-        <Button styleClass="btn, blue" text="Add Publication" onMouseClicked="#addPublication" />
-      </HBox>
-    </top>
-    <center>
-      <VBox styleClass="container">
-        <DataTableView 
-          fx:id="table" 
-          onButtonClicked="#buttonClicked" 
-          onRowClicked="#rowClicked" 
-          show="ALL"
-        >
-          <columns>
-            <PropertyColumn property="id" text="ID" fx:id="id_column"/>
-            <PropertyColumn property="name" text="Name" fx:id="name_column"/>
-            <PropertyColumn property="cost" text="Cost" fx:id="email_column"/>
-            <PropertyColumn property="type" text="Type" fx:id="type_column"/>
-          </columns>
-        </DataTableView>
-        <Pagination fx:id="pagination" pageCount="1" id="pagination" />
-        <fx:include fx:id="detail" source="Detail.fxml" />
-      </VBox>
-    </center>
-  </BorderPane>
-</StackPane>
+  <stylesheets>
+    <URL value="@../Layout.css" />
+  </stylesheets>
+  <top>
+    <HBox styleClass="header" fx:id="header">
+      <TextField onKeyReleased="#searchPublication" />
+      <Button styleClass="btn, blue" text="Add Publication" onMouseClicked="#addPublication" />
+    </HBox>
+  </top>
+  <center>
+    <VBox styleClass="container">
+      <fx:include fx:id="table" source="Table.fxml" />
+      <Pagination fx:id="pagination" pageCount="1" id="pagination" />
+      <fx:include fx:id="detail" source="Detail.fxml" />
+    </VBox>
+  </center>
+</BorderPane>

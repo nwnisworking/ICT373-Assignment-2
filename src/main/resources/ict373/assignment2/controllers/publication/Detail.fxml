@@ -23,18 +23,8 @@
       </left>
       <right>
         <HBox>
-          <Button 
-            styleClass="gray"
-            fx:id="back_btn"
-            text="Back"
-            onMouseClicked="#back" 
-          />
-          <Button 
-            styleClass="blue"
-            fx:id="save_btn"
-            text="Save"
-            onMouseClicked="#save" 
-          />
+          <Button styleClass="gray" fx:id="back_btn" text="Back" onMouseClicked="#back" />
+          <Button styleClass="blue" fx:id="save_btn" text="Save" onMouseClicked="#save" />
         </HBox>
       </right>
     </BorderPane>
