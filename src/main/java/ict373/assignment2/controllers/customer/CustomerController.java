@@ -136,10 +136,12 @@ public class CustomerController implements Initializable{
    */
   private void triggerAction(PageEvent<?> event) {
     event.consume();
-
-    switch(event.getEventType().getName()){
-      case "PAGE_BACK" -> displayDetail(false);
-      default -> displayDetail(true);
+    
+    if(PageEvent.BACK.equals(event.getEventType())){
+      displayDetail(false);
+    }
+    else{
+      displayDetail(true);
     }
   }
 

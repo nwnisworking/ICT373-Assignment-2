@@ -20,15 +20,12 @@ import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.EventType;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 
 /**
  * <strong>CustomerDetailController class</strong>
@@ -301,8 +298,8 @@ public class CustomerDetailController implements Initializable{
     address.fields().forEach(e -> e.setDisable(disabled));
     
     // For Edit and View, type and method SHOULD BE disabled.
-    profile.type().setDisable(true);
-    payment.method().setDisable(true);
+    profile.type().setDisable(!PageEvent.ADD.equals(event.getEventType()));
+    payment.method().setDisable(!PageEvent.ADD.equals(event.getEventType()));
 
     if(customer instanceof PayingCustomer pc){
       payment.load(pc.getMethod());
@@ -396,8 +393,6 @@ public class CustomerDetailController implements Initializable{
     profile.payer().setItems(FXCollections.observableArrayList());
     payment.method().setValue("Credit Card");
 
-    associate_table.setItems(FXCollections.observableArrayList());
-    
     detail_panel.getParent().fireEvent(new PageEvent<>(PageEvent.BACK, null));
   }
 
