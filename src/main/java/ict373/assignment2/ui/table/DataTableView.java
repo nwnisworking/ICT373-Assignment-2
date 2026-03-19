@@ -14,6 +14,7 @@ public class DataTableView<S> extends TableView<S>{
     NONE,
     EDIT,
     DELETE,
+    ADD,
     ALL;
   };
   

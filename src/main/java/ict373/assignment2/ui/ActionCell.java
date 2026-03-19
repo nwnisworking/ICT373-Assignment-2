@@ -30,11 +30,16 @@ public class ActionCell<T> extends TableCell<T, Void>{
    * The delete button for performing delete actions on the table item.
    */
   private final Button delete_btn = new Button("Delete");
+  
+  /**
+   * The add button for performing add actions on the table item.
+   */
+  private final Button add_btn = new Button("Add");
     
   /**
    * The container holding the edit and delete buttons, arranged horizontally with spacing.
    */
-  private final HBox container = new HBox(10, edit_btn, delete_btn);
+  private final HBox container = new HBox(10, edit_btn, delete_btn, add_btn);
 
   /**
    * An ObjectProperty that controls which buttons are shown in the cell. It can be set to show Edit, Delete, both, or neither button.
@@ -49,13 +54,15 @@ public class ActionCell<T> extends TableCell<T, Void>{
 
     edit_btn.setMinWidth(USE_PREF_SIZE);
     delete_btn.setMinWidth(USE_PREF_SIZE);
+    add_btn.setMinWidth(USE_PREF_SIZE);
 
     edit_btn.getStyleClass().addAll("btn", "blue");
     delete_btn.getStyleClass().addAll("btn", "red");
-    
+    add_btn.getStyleClass().addAll("btn", "blue");
     
     edit_btn.visibleProperty().bind(edit_btn.managedProperty());
     delete_btn.visibleProperty().bind(delete_btn.managedProperty());
+    add_btn.visibleProperty().bind(add_btn.managedProperty());
   }
   
   /**
@@ -67,14 +74,16 @@ public class ActionCell<T> extends TableCell<T, Void>{
     int bit = 0;
 
     switch(button){
-      case DataTableView.Button.NONE -> bit = 0b00;
-      case DataTableView.Button.DELETE -> bit = 0b01;
-      case DataTableView.Button.EDIT -> bit = 0b10;
-      case DataTableView.Button.ALL -> bit = 0b11;
+      case DataTableView.Button.NONE -> bit = 0b000;
+      case DataTableView.Button.DELETE -> bit = 0b010;
+      case DataTableView.Button.EDIT -> bit = 0b100;
+      case DataTableView.Button.ADD -> bit = 0b001;
+      case DataTableView.Button.ALL -> bit = 0b110;
     }
 
-    edit_btn.setManaged((bit >> 1) == 1);
-    delete_btn.setManaged((bit & 1) == 1);
+    edit_btn.setManaged((bit & 0b100) > 0);
+    delete_btn.setManaged((bit & 0b010) > 0);
+    add_btn.setManaged((bit & 0b001) > 0);
   }
   
   /**
@@ -120,6 +129,10 @@ public class ActionCell<T> extends TableCell<T, Void>{
       delete_btn.setOnAction(e -> {
         e.consume();
         fireEvent(new TableEvent<>(TableEvent.DELETE, data));
+      });
+      add_btn.setOnAction(e -> {
+        e.consume();
+        fireEvent(new TableEvent<>(TableEvent.ADD, data));
       });
     }
     

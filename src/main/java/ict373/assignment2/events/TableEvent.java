@@ -35,6 +35,11 @@ public class TableEvent<T> extends Event{
   public static final EventType<TableEvent<?>> VIEW = new EventType<>(ANY, "TABLE_VIEW");
 
   /**
+   * The event type for adding an item in the table.
+   */
+  public static final EventType<TableEvent<?>> ADD = new EventType<>(ANY, "TABLE_ADD");
+
+  /**
    * The data associated with the table event, such as the item being edited, deleted, or viewed.
    */
   private T data;
