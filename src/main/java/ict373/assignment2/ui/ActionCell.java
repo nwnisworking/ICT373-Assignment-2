@@ -63,6 +63,8 @@ public class ActionCell<T> extends TableCell<T, Void>{
     edit_btn.visibleProperty().bind(edit_btn.managedProperty());
     delete_btn.visibleProperty().bind(delete_btn.managedProperty());
     add_btn.visibleProperty().bind(add_btn.managedProperty());
+    
+    show.addListener((obs, oldVal, newVal) -> displayButton(newVal));
   }
   
   /**
@@ -136,7 +138,7 @@ public class ActionCell<T> extends TableCell<T, Void>{
       });
     }
     
-    if(!empty) displayButton(show.getValue());
+    displayButton(show.getValue());
     setGraphic(empty ? null : container);
   }
 }
