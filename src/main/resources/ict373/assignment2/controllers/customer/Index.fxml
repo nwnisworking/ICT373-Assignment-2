@@ -24,18 +24,7 @@
   </top>
   <center>
     <VBox styleClass="container">
-      <DataTableView 
-        fx:id="table" 
-        show="ALL"
-        VBox.vgrow="ALWAYS"
-      >
-        <columns>
-          <PropertyColumn property="id" text="ID" fx:id="id_column"/>
-          <PropertyColumn property="name" text="Name" fx:id="name_column"/>
-          <PropertyColumn property="email" text="Email" fx:id="email_column"/>
-          <PropertyColumn property="type" text="Type" fx:id="type_column"/>
-        </columns>
-      </DataTableView>
+      <fx:include fx:id="table" source="Table.fxml" />
       <Pagination fx:id="pagination" pageCount="1" id="pagination" />
       <fx:include fx:id="detail" source="Detail.fxml" />
     </VBox>

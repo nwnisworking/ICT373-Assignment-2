@@ -73,14 +73,16 @@
 				</GridPane>
 			</Tab>
       <Tab text="Associates" fx:id="associate_tab">
-        <DataTableView fx:id="associate_table" show="DELETE">
-          <columns>
-            <PropertyColumn property="id" text="ID" fx:id="id_column"/>
-            <PropertyColumn property="name" text="Name" fx:id="name_column"/>
-            <PropertyColumn property="email" text="Email" fx:id="email_column"/>
-            <PropertyColumn property="type" text="Type" fx:id="type_column"/>
-          </columns>
-        </DataTableView>
+        <VBox spacing="10">
+          <Button text="Add Associate" styleClass="blue" fx:id="add_associate_btn" onMouseClicked="#triggerAssociateSelection" />
+          <fx:include fx:id="associate_table" source="Table.fxml"/>
+        </VBox>
+      </Tab>
+      <Tab text="Subscription" fx:id="subscription_tab">
+        <VBox spacing="10">
+          <Button text="Add Subscription" styleClass="blue" fx:id="add_subscription_btn" onMouseClicked="#triggerSubscriptionSelection" />
+          <fx:include fx:id="subscription_table" source="../publication/Table.fxml"/>
+        </VBox>
       </Tab>
 		</TabPane>
 	</center>
