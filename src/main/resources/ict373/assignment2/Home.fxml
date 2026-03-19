@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -8,21 +7,25 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.collections.* ?>
 <?import java.lang.String ?>
+<?import ict373.assignment2.ui.* ?>
 
-<BorderPane
+<StackPane
 	xmlns:fx="http://javafx.com/fxml/1"
+  fx:id="main"
 	fx:controller="ict373.assignment2.controllers.HomeController"
-	fx:id="content"
 >
-	<left>
-		<ListView fx:id="nav_items" id="nav_items">
-			<items>
-				<FXCollections fx:factory="observableArrayList">
-					<String fx:value="Customers" />
-					<String fx:value="Publications"/>
-					<String fx:value="Subscriptions"/>
-				</FXCollections>
-			</items>
-		</ListView>
-	</left>
-</BorderPane>
+  <BorderPane	fx:id="content">
+    <left>
+      <ListView fx:id="nav_items">
+        <items>
+          <FXCollections fx:factory="observableArrayList">
+            <String fx:value="Customers" />
+            <String fx:value="Publications"/>
+            <String fx:value="Subscriptions"/>
+          </FXCollections>
+        </items>
+      </ListView>
+    </left>
+  </BorderPane>
+  <Modal fx:id="modal" />
+</StackPane>
