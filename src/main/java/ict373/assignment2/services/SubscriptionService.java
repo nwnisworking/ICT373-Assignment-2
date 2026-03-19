@@ -3,7 +3,7 @@ package ict373.assignment2.services;
 import java.util.ArrayList;
 
 import ict373.assignment2.models.customers.Customer;
-import ict373.assignment2.models.publications.Publication;
+import ict373.assignment2.models.publications.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -48,15 +48,28 @@ public class SubscriptionService extends Service<Customer, ArrayList<Publication
 	}
 
 	/**
-	 * Remove a subscription for a customer from a publication.
+	 * Remove subscriptions for a customer from a publication.
 	 * @param customer The customer who is unsubscribing.
-	 * @param publication The publication from which the customer is unsubscribing.
 	 */
 	@Override
 	public void remove(Customer customer){
 		super.remove(customer);
 	}
 
+  public void remove(Customer customer, Publication publication){
+    ArrayList<Publication> subscriptions = super.get(customer);
+    
+    if(publication instanceof Supplement s){
+      subscriptions.remove(s);
+    }
+    else if(publication instanceof Magazine m){
+      subscriptions.remove(m);
+      
+      if(!subscriptions.contains(m))
+        subscriptions.removeIf(e -> e instanceof Supplement s && m.equals(s.getMagazine()));
+    }
+  }
+  
 	/**
 	 * Get the list of publications to which a customer is subscribed.
 	 * @param customer The customer whose subscriptions are being retrieved.
