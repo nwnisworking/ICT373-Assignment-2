@@ -1,30 +1,34 @@
 package ict373.assignment2.controllers.customer;
+import ict373.assignment2.App;
 import ict373.assignment2.models.Address;
 import ict373.assignment2.models.customers.*;
-import ict373.assignment2.models.payments.CreditCard;
-import ict373.assignment2.models.payments.DirectDebit;
+import ict373.assignment2.models.publications.*;
+import ict373.assignment2.models.payments.*;
 import ict373.assignment2.FormRecord;
 import ict373.assignment2.controllers.customer.forms.*;
-import ict373.assignment2.events.CustomerEvent;
-import ict373.assignment2.events.PageEvent;
-import ict373.assignment2.events.TableEvent;
-import ict373.assignment2.services.CustomerService;
+import ict373.assignment2.events.*;
+import ict373.assignment2.services.*;
 import ict373.assignment2.ui.inputs.*;
 import ict373.assignment2.ui.table.DataTableView;
 import ict373.assignment2.utils.Validator.ValidatorResult;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.EventType;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 /**
  * <strong>CustomerDetailController class</strong>
@@ -133,13 +137,23 @@ public class CustomerDetailController implements Initializable{
    */
   @FXML
   private TextInputField unit_number_field;
-
+  
+  @FXML
+  private Button add_associate_btn;
+  
   /**
    * The associate table that holds the list of associate customers linked to a paying customer.
    */
   @FXML
   private DataTableView<AssociateCustomer> associate_table;
 
+  
+  @FXML
+  private Button add_subscription_btn;
+  
+  @FXML
+  private DataTableView<Publication> subscription_table;
+  
   /**
    * The tab pane that contains different tabs for profile, payment, and address information.
    */
@@ -197,6 +211,16 @@ public class CustomerDetailController implements Initializable{
   private Customer customer;
 
   /**
+   * The ObservableList of publications that represents the customer's current subscriptions. 
+   */
+  private ObservableList<Publication> subscriptions;
+
+  /**
+   * The ObservableList of associate customers that are linked to the paying customer being viewed or edited. 
+   */
+  private ObservableList<AssociateCustomer> associates;
+  
+  /**
    * Initializes the controller class.
    * 
    * @param url The location for the root object.
@@ -210,11 +234,25 @@ public class CustomerDetailController implements Initializable{
     
     detail_panel.addEventHandler(PageEvent.ANY, this::load);
     associate_table.addEventHandler(TableEvent.DELETE, this::deleteAssociateCustomer);
+    subscription_table.addEventHandler(TableEvent.DELETE, this::deleteSubscription);
     
+    // Disable TableEvent.VIEW from propagating to the top.
+    subscription_table.addEventHandler(TableEvent.VIEW, e->e.consume()); 
+
+    // Toggle the visibility of fields based on the selected payment method and customer type.
     profile.type().valueProperty().addListener(this::toggleCustomerType);
     payment.method().valueProperty().addListener(this::togglePaymentMethod);
+
+    // Bind the visibility of buttons to their managed property to ensure they are hidden when not needed.
     save_btn.visibleProperty().bind(save_btn.managedProperty());
+    add_associate_btn.visibleProperty().bind(add_associate_btn.managedProperty());
+    add_subscription_btn.visibleProperty().bind(add_subscription_btn.managedProperty());
+
+    // The initial state of the detail view which contains the delete button.
+    associate_table.setShow(DataTableView.Button.DELETE);
+    subscription_table.setShow(DataTableView.Button.DELETE);
     
+    // Toggle the fields to the correct state based on the default values set in the FXML.
     toggleCustomerType(null, "", profile.type().getValue());
     togglePaymentMethod(null, "", payment.method().getValue());
   }
@@ -225,7 +263,7 @@ public class CustomerDetailController implements Initializable{
    * @param event The PageEvent that contains the customer data and the information about the event.
    */
   private void load(PageEvent<?> event){
-    boolean disabled = false;
+    boolean disabled = PageEvent.VIEW.equals(event.getEventType());
     Customer customer = (Customer) event.getData();
     Address addr = customer != null ? customer.getAddress() : null;
     String type = switch(event.getEventType().getName()){
@@ -234,44 +272,48 @@ public class CustomerDetailController implements Initializable{
       case "PAGE_VIEW" -> "View";
       default -> "View";
     };
-    
-    detail_title.setText(type + " Customer");
 
-    // Load all payers regardless of customer types.
+    detail_title.setText(type + " Customer");
+    
     profile.payer().setItems(
       CustomerService
       .getInstance()
       .getObservableList()
       .filtered(PayingCustomer.class::isInstance)
     );
-    
-    switch(type){
-      case "View" :
-        disabled = true; 
-        save_btn.setManaged(false);
-        associate_table.setShow(DataTableView.Button.NONE);
-      case "Edit" :
-        boolean d = disabled;
-        profile.load(customer);
-        address.load(addr);
-        
-        profile.fields().forEach(e -> e.setDisable(d));
-        address.fields().forEach(e -> e.setDisable(d));
-    
-        // For Edit and View, type and method SHOULD BE disabled.
-        profile.type().setDisable(true);
-        payment.method().setDisable(true);
-        
-        if(customer instanceof PayingCustomer pc){
-          payment.load(pc.getMethod());
-          payment.fields().forEach(e -> e.setDisable(d));
 
-          associate_table.setItems(FXCollections.observableArrayList(pc.getAssociates()));
-        }
-      break;
+    ArrayList<Publication> subs = SubscriptionService.getInstance().get(customer);
+    subscriptions = FXCollections.observableArrayList(subs != null ? subs : new ArrayList<>());
+    subscription_table.setItems(subscriptions);
+
+    ArrayList<AssociateCustomer> assocs = customer instanceof PayingCustomer pc ? pc.getAssociates() : new ArrayList<>();
+    associates = FXCollections.observableArrayList(assocs);
+    associate_table.setItems(associates);
+
+    save_btn.setManaged(!disabled);
+    add_associate_btn.setManaged(!disabled);
+    add_subscription_btn.setManaged(!disabled);
+
+    profile.load(customer);
+    address.load(addr);
+        
+    profile.fields().forEach(e -> e.setDisable(disabled));
+    address.fields().forEach(e -> e.setDisable(disabled));
+    
+    // For Edit and View, type and method SHOULD BE disabled.
+    profile.type().setDisable(true);
+    payment.method().setDisable(true);
+
+    if(customer instanceof PayingCustomer pc){
+      payment.load(pc.getMethod());
+      payment.fields().forEach(e -> e.setDisable(disabled));
     }
 
     this.customer = customer;
+      
+    associate_table.setShow(disabled ? DataTableView.Button.NONE : DataTableView.Button.DELETE);
+    subscription_table.setShow(disabled ? DataTableView.Button.NONE : DataTableView.Button.DELETE);
+
     System.out.println("[Customer]: " + (customer == null ? "New Customer" : customer) + " loaded in " + type + " mode");
   }
 
@@ -337,9 +379,11 @@ public class CustomerDetailController implements Initializable{
    */
   @FXML
   private void back(){
+    add_associate_btn.setManaged(true);
+    add_subscription_btn.setManaged(true);
     save_btn.setManaged(true);
     associate_table.setShow(DataTableView.Button.DELETE);
-
+    subscription_table.setShow(DataTableView.Button.DELETE);
     detail_tabpane.getSelectionModel().selectFirst();
 
     customer = null;
@@ -355,7 +399,6 @@ public class CustomerDetailController implements Initializable{
     associate_table.setItems(FXCollections.observableArrayList());
     
     detail_panel.getParent().fireEvent(new PageEvent<>(PageEvent.BACK, null));
-    detail_panel.addEventHandler(TableEvent.DELETE, this::deleteAssociateCustomer);
   }
 
   /**
@@ -401,7 +444,6 @@ public class CustomerDetailController implements Initializable{
    * 
    * @param event The TableEvent that contains the associate customer to be deleted.
    */
-  @FXML
   private void deleteAssociateCustomer(TableEvent<?> event){
     event.consume();
     
@@ -419,4 +461,85 @@ public class CustomerDetailController implements Initializable{
     
     System.out.println("[Customer]: Customer " + associate_customer + " removed from " + paying_customer);
   }
+  
+  private void deleteSubscription(TableEvent<?> event){
+    event.consume();
+    
+    Publication p = (Publication) event.getData();
+    SubscriptionService subscription_service = SubscriptionService.getInstance();
+    
+    subscription_service.remove(customer, p);
+
+    subscriptions.setAll(subscription_service.get(customer));
+    
+    System.out.println("[Customer]: " + p + " removed from " + customer + " subscription");
+  }
+  
+  @FXML
+  private void triggerAssociateSelection(){
+    ObservableList<Customer> master_list = CustomerService
+    .getInstance()
+    .getObservableList();
+    FilteredList<Customer> filtered_list = master_list.filtered(e -> {
+      return e instanceof AssociateCustomer ac && ac.getPayer() == null;
+    });
+    
+    if(filtered_list.isEmpty()) return;
+    
+    @SuppressWarnings("unchecked")
+    DataTableView<Customer> table = (DataTableView<Customer>) App.loadFXML("controllers/customer/Table", null);
+
+    table.setItems(filtered_list);
+    table.setShow(DataTableView.Button.ADD);
+    
+    // The lambda expression requires master_list, hence, it cannot be turned
+    // into a method itself.
+    table.addEventHandler(TableEvent.ADD, e -> {
+      PayingCustomer pc = (PayingCustomer) customer;
+      AssociateCustomer ac = (AssociateCustomer) e.getData();
+      
+      pc.addAssociate(ac);
+      associates.add(ac);
+      
+      detail_panel.fireEvent(new ModalEvent(ModalEvent.CLOSE, null));
+    });
+    
+    detail_panel.fireEvent(new ModalEvent(ModalEvent.OPEN, table));
+  }
+  
+  @FXML
+  private void triggerSubscriptionSelection(){
+    ObservableList<Publication> master_list = PublicationService
+    .getInstance()
+    .getObservableList();
+    FilteredList<Publication> filtered_list = master_list.filtered(e -> {
+      if(e instanceof Supplement s){
+        return s.getMagazine() != null && // Supplement without magazine should not be added.
+        subscriptions.contains(s.getMagazine()) && // Supplement whose magazine is not subscribed should not be added.
+        !subscriptions.contains(s); // Supplement that is already subscribed should not be added.
+      }
+      
+      return true;
+    });
+
+    @SuppressWarnings("unchecked")
+    DataTableView<Publication> table = (DataTableView<Publication>) App.loadFXML("controllers/publication/Table", null);
+
+    table.setItems(filtered_list);
+    table.setShow(DataTableView.Button.ADD);
+    
+    // The lambda expression requires master_list, hence, it cannot be turned
+    // into a method itself.
+    table.addEventHandler(TableEvent.ADD, e -> {
+      Publication p = (Publication) e.getData();
+      
+      SubscriptionService.getInstance().add(customer, p);
+      subscriptions.add(p);
+      
+      detail_panel.fireEvent(new ModalEvent(ModalEvent.CLOSE, null));
+    });
+    
+    detail_panel.fireEvent(new ModalEvent(ModalEvent.OPEN, table));
+  }
+  
 }
