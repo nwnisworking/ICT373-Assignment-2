@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import java.net.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ict373.assignment2.ui.* ?>
+
+<fx:root
+  type="StackPane"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:id="modal"
+  styleClass="modal"
+  managed="false"
+  visible="false"
+>
+  <stylesheets>
+    <URL value="@Modal.css" />
+  </stylesheets>
+  <Pane fx:id="overlay" styleClass="modal-overlay" />
+  <StackPane fx:id="content" styleClass="modal-content" StackPane.alignment="BOTTOM_CENTER" />
+</fx:root>

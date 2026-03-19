@@ -1,0 +1,8 @@
+.modal .modal-overlay{
+  -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal .modal-content{
+  -fx-max-height: 300;
+  -fx-pref-height: 300;
+}
