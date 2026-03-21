@@ -1,6 +1,7 @@
 package ict373.assignment2.controllers.customer;
 import ict373.assignment2.App;
 import ict373.assignment2.models.Address;
+import ict373.assignment2.models.CustomerSubscription;
 import ict373.assignment2.models.customers.*;
 import ict373.assignment2.models.publications.*;
 import ict373.assignment2.models.payments.*;
@@ -14,6 +15,8 @@ import ict373.assignment2.utils.Validator.ValidatorResult;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,6 +28,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -135,6 +140,9 @@ public class CustomerDetailController implements Initializable{
   @FXML
   private TextInputField unit_number_field;
   
+  /**
+   * The button for adding an associate customer to a paying customer's list of associates. 
+   */
   @FXML
   private Button add_associate_btn;
   
@@ -144,10 +152,15 @@ public class CustomerDetailController implements Initializable{
   @FXML
   private DataTableView<AssociateCustomer> associate_table;
 
-  
+  /**
+   * The button for adding a publication to the customer's subscription list.
+   */
   @FXML
   private Button add_subscription_btn;
   
+  /**
+   * The subscription table that holds the list of publications that the customer is currently subscribed to.
+   */
   @FXML
   private DataTableView<Publication> subscription_table;
   
@@ -188,6 +201,42 @@ public class CustomerDetailController implements Initializable{
   private Tab subscription_tab;
 
   /**
+   * The billing tab that contains the billing information for a paying customer, including the list of subscriptions and the total amount due.
+   */
+  @FXML
+  private Tab billing_tab;
+
+  /**
+   * The billing table that displays the list of subscriptions for the paying customer and their associates.
+   */
+  @FXML
+  private TableView<CustomerSubscription> billing_table;
+
+  /**
+   * The text field for the total billing amount for the payer. 
+   */
+  @FXML
+  private TextField billing_amount_field;
+  
+  /**
+   * The text field for the weekly billing amount for the payer.
+   */
+  @FXML
+  private TextField billing_week_field;
+  
+  /**
+   * The text field for the total billing amount for the payer, which is calculated based on the subscriptions of the paying customer and their associates.
+   */
+  @FXML
+  private TextField billing_total_field;
+  
+  /**
+   * The date input field for the next billing date for the payer.
+   */
+  @FXML
+  private DateInputField billing_date_field;
+  
+  /**
    * The ProfileForm instance that manages the profile information fields such as name, email, type, and payer.
    */
   private ProfileForm profile;
@@ -216,6 +265,11 @@ public class CustomerDetailController implements Initializable{
    * The ObservableList of associate customers that are linked to the paying customer being viewed or edited. 
    */
   private ObservableList<AssociateCustomer> associates;
+
+  /**
+   * The SubscriptionService instance used to manage subscription data.
+   */
+  private SubscriptionService subscription_service = SubscriptionService.getInstance();
   
   /**
    * Initializes the controller class.
@@ -252,6 +306,13 @@ public class CustomerDetailController implements Initializable{
     // Toggle the fields to the correct state based on the default values set in the FXML.
     toggleCustomerType(null, "", profile.type().getValue());
     togglePaymentMethod(null, "", payment.method().getValue());
+    
+    // Disable billing fields as they are used for display purposes.
+    billing_amount_field.setDisable(true);
+    billing_total_field.setDisable(true);
+    billing_week_field.setDisable(true);
+    billing_date_field.setDisable(true);
+    billing_table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
   }
   
   /**
@@ -271,6 +332,8 @@ public class CustomerDetailController implements Initializable{
     };
 
     detail_title.setText(type + " Customer");
+
+    this.customer = customer;
     
     profile.payer().setItems(
       CustomerService
@@ -279,7 +342,7 @@ public class CustomerDetailController implements Initializable{
       .filtered(PayingCustomer.class::isInstance)
     );
 
-    ArrayList<Publication> subs = SubscriptionService.getInstance().get(customer);
+    ArrayList<Publication> subs = subscription_service.get(customer);
     subscriptions = FXCollections.observableArrayList(subs != null ? subs : new ArrayList<>());
     subscription_table.setItems(subscriptions);
 
@@ -304,9 +367,8 @@ public class CustomerDetailController implements Initializable{
     if(customer instanceof PayingCustomer pc){
       payment.load(pc.getMethod());
       payment.fields().forEach(e -> e.setDisable(disabled));
+      loadBillingInfo();
     }
-
-    this.customer = customer;
       
     associate_table.setShow(disabled ? DataTableView.Button.NONE : DataTableView.Button.DELETE);
     subscription_table.setShow(disabled ? DataTableView.Button.NONE : DataTableView.Button.DELETE);
@@ -320,6 +382,8 @@ public class CustomerDetailController implements Initializable{
   @FXML
   private void save(){
     List<FormRecord<?>> forms = List.of(profile, address, payment);
+    boolean is_new = customer == null;
+    
     // Validate all forms and display the first error encountered.
     for(FormRecord<?> form : forms){
       ValidatorResult result = form.validate();
@@ -339,34 +403,52 @@ public class CustomerDetailController implements Initializable{
 
     if(customer == null){
       switch(profile.type().getValue()){
-        case "Paying Customer" : 
-          customer = new PayingCustomer();
-
-          ((PayingCustomer) customer).setMethod(
-            payment
-            .method()
-            .getValue()
-            .equals("Credit Card") ? new CreditCard() : new DirectDebit()
-          );
+        case "Paying Customer" :
+          PayingCustomer pc = new PayingCustomer();
+          customer = pc;
+          Method method = switch(payment.method().getValue()){
+            case "Credit Card" -> new CreditCard();
+            case "Direct Debit" -> new DirectDebit();
+            default -> new DirectDebit();
+          };
+          
+          pc.setMethod(method);
         break;
         case "Associate Customer" : customer = new AssociateCustomer();
       }
-      
-      customer.setAddress(new Address());
+    }
 
-      detail_panel.fireEvent(new CustomerEvent(CustomerEvent.CUSTOMER_CREATED, customer));
-    }
-    else{
-      detail_panel.fireEvent(new CustomerEvent(CustomerEvent.CUSTOMER_EDITED, customer));
-    }
+    customer.setAddress(new Address());
 
     profile.save(customer);
     address.save(customer.getAddress());
 
     if(customer instanceof PayingCustomer pc){
       payment.save(pc.getMethod());
+      
+      pc.removeAllAssociates();
+      
+      associates.forEach(pc::addAssociate);
+      pc.getAssociates().removeIf(e -> !associates.contains(e));
     }
+    
+    ArrayList<Publication> user_subscription = subscription_service.get(customer);
 
+    if(user_subscription != null){
+      user_subscription.clear();
+      user_subscription.addAll(subscriptions);
+    }
+    else{
+      subscriptions.forEach(pub -> subscription_service.add(customer, pub));
+    }
+    
+    if(is_new){
+      detail_panel.fireEvent(new CustomerEvent(CustomerEvent.CUSTOMER_CREATED, customer));
+    }
+    else{
+      detail_panel.fireEvent(new CustomerEvent(CustomerEvent.CUSTOMER_EDITED, customer));
+    }
+    
     System.out.println("[Customer]: Customer " + customer +  " saved");
     back();
   }
@@ -424,10 +506,10 @@ public class CustomerDetailController implements Initializable{
     ObservableList<Tab> tabs = detail_tabpane.getTabs();
 
     profile.payer().setManaged(!is_paying);
-    tabs.removeAll(profile_tab, payment_tab, address_tab, associate_tab, subscription_tab);
+    tabs.removeAll(profile_tab, payment_tab, address_tab, associate_tab, subscription_tab, billing_tab);
 
     if(is_paying){
-      tabs.addAll(profile_tab, address_tab, payment_tab, associate_tab, subscription_tab);
+      tabs.addAll(profile_tab, address_tab, payment_tab, associate_tab, subscription_tab, billing_tab);
     }
     else{
       tabs.addAll(profile_tab, address_tab, subscription_tab);
@@ -444,45 +526,63 @@ public class CustomerDetailController implements Initializable{
     
     Customer c = (Customer) event.getData();
     
-    if(c == null || !(c instanceof AssociateCustomer associate_customer) || !(customer instanceof PayingCustomer)) return;
+    if(c == null || !(customer instanceof PayingCustomer)) return;
     
-    PayingCustomer paying_customer = (PayingCustomer) customer;
+    associates.remove(c);
+    loadBillingInfo();
     
-    paying_customer.removeAssociate(associate_customer);
-
-    // The table uses an ObservableList that is created upon loading.
-    // This means the item needs to be manually deleted.
-    associate_table.getItems().remove(associate_customer);
-    
-    System.out.println("[Customer]: Customer " + associate_customer + " removed from " + paying_customer);
+    detail_panel.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.INFO, c + " deleted from paying customer"));
   }
   
+  /**
+   * Delete a publication from the customer's subscription list.
+   * 
+   * @param event The TableEvent that contains the publication to be deleted from the customer's subscription list.
+   */
   private void deleteSubscription(TableEvent<?> event){
     event.consume();
     
     Publication p = (Publication) event.getData();
-    SubscriptionService subscription_service = SubscriptionService.getInstance();
+    subscriptions.remove(p);
     
-    subscription_service.remove(customer, p);
-
-    subscriptions.setAll(subscription_service.get(customer));
+    if(p instanceof Magazine m){
+      if(!subscriptions.contains(m)){
+        subscriptions.removeIf(e -> e instanceof Supplement s && m.equals(s.getMagazine()));
+      }
+      
+    }
     
-    System.out.println("[Customer]: " + p + " removed from " + customer + " subscription");
+    loadBillingInfo();
+    
+    detail_panel.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.INFO, p + " removed from customer's subscription"));
   }
   
+  /**
+   * Trigger the selection of associate customers via a modal.
+   */
   @FXML
   private void triggerAssociateSelection(){
+    if(customer == null){
+      detail_panel.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.WARN, "Customer needs to be created before associate can be added."));
+      return;
+    }
+    
     ObservableList<Customer> master_list = CustomerService
     .getInstance()
     .getObservableList();
     FilteredList<Customer> filtered_list = master_list.filtered(e -> {
-      return e instanceof AssociateCustomer ac && ac.getPayer() == null;
+      if(!(e instanceof AssociateCustomer ac)) return false;
+      
+      return !associates.contains(ac) && 
+      (ac.getPayer() == null || ac.getPayer().equals(customer));  
     });
     
-    if(filtered_list.isEmpty()) return;
+    if(filtered_list.isEmpty()){
+      detail_panel.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.WARN, "No available associates found."));
+      return;
+    }
     
-    @SuppressWarnings("unchecked")
-    DataTableView<Customer> table = (DataTableView<Customer>) App.loadFXML("controllers/customer/Table", null);
+    DataTableView<Customer> table = App.loadFXML("controllers/customer/Table", null);
 
     table.setItems(filtered_list);
     table.setShow(DataTableView.Button.ADD);
@@ -490,20 +590,32 @@ public class CustomerDetailController implements Initializable{
     // The lambda expression requires master_list, hence, it cannot be turned
     // into a method itself.
     table.addEventHandler(TableEvent.ADD, e -> {
-      PayingCustomer pc = (PayingCustomer) customer;
       AssociateCustomer ac = (AssociateCustomer) e.getData();
       
-      pc.addAssociate(ac);
       associates.add(ac);
-      
+      loadBillingInfo();
       detail_panel.fireEvent(new ModalEvent(ModalEvent.CLOSE, null));
+      detail_panel.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.INFO, "Associate added to " + customer));
     });
     
     detail_panel.fireEvent(new ModalEvent(ModalEvent.OPEN, table));
   }
   
+  /**
+   * Trigger the selection of publications for the customer's subscription list via a modal.
+   */
   @FXML
   private void triggerSubscriptionSelection(){
+    if(customer instanceof AssociateCustomer ac && ac.getPayer() == null){
+      detail_panel.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.WARN, "Associate needs a payer."));
+      return;
+    }
+    
+    if(customer == null){
+      detail_panel.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.WARN, "Customer needs to be created before subscription can be added."));
+      return;
+    }
+    
     ObservableList<Publication> master_list = PublicationService
     .getInstance()
     .getObservableList();
@@ -517,8 +629,12 @@ public class CustomerDetailController implements Initializable{
       return true;
     });
 
-    @SuppressWarnings("unchecked")
-    DataTableView<Publication> table = (DataTableView<Publication>) App.loadFXML("controllers/publication/Table", null);
+    if(filtered_list.isEmpty()){
+      detail_panel.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.WARN, "No available publications found."));
+      return;
+    }
+    
+    DataTableView<Publication> table =  App.loadFXML("controllers/publication/Table", null);
 
     table.setItems(filtered_list);
     table.setShow(DataTableView.Button.ADD);
@@ -528,13 +644,57 @@ public class CustomerDetailController implements Initializable{
     table.addEventHandler(TableEvent.ADD, e -> {
       Publication p = (Publication) e.getData();
       
-      SubscriptionService.getInstance().add(customer, p);
       subscriptions.add(p);
-      
+      loadBillingInfo();
       detail_panel.fireEvent(new ModalEvent(ModalEvent.CLOSE, null));
+      detail_panel.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.INFO, "Publication added to " + customer + "'s subscription"));
     });
     
     detail_panel.fireEvent(new ModalEvent(ModalEvent.OPEN, table));
   }
   
+  /**
+   * Load the billing information for the paying customer, including the list of subscriptions for the customer and their associates, the total amount due, and the next billing date. 
+   */
+  private void loadBillingInfo(){
+    if(customer == null || !(customer instanceof PayingCustomer pc)) return;
+
+    ObservableList<CustomerSubscription> billing_info = FXCollections.observableArrayList();
+    ArrayList<Customer> customers = new ArrayList<>(associates);
+    LocalDate current_date = LocalDate
+    .now()
+    .with(TemporalAdjusters.lastDayOfMonth());
+    LocalDate payment_date = LocalDate
+    .now()
+    .plusMonths(1)
+    .with(TemporalAdjusters.firstDayOfMonth())
+    ;
+    double[] total = {0};
+    int total_week = (int) Math.ceil(current_date.getDayOfMonth() / 7.0);
+    
+    // This subscription is a pending subscription for the current user.
+    subscriptions.forEach(pub -> {
+      billing_info.add(new CustomerSubscription(customer, pub));
+      total[0] += pub.getCost();
+    });
+        
+    for(Customer c : customers){
+      ArrayList<Publication> subs = subscription_service.get(c);
+      
+      if(subs != null){
+        subs.forEach(pub -> {
+          billing_info.add(new CustomerSubscription(c, pub));
+          total[0] += pub.getCost();
+        });
+      }
+
+      
+    }
+    
+    billing_table.setItems(billing_info);
+    billing_amount_field.setText("$" + total[0] + "");
+    billing_week_field.setText(total_week + "");
+    billing_total_field.setText("$" + (total[0] * total_week) + "");
+    billing_date_field.setValue(payment_date);
+  }
 }
