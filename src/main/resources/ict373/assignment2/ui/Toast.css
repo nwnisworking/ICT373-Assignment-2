@@ -1,0 +1,29 @@
+.toast-container{
+  -fx-padding: 20 10 20 10; 
+  -fx-spacing: 10;
+}
+.toast-container .toast-notification{
+  -fx-padding: 15 10 15 10;
+  -fx-background-color: white;
+  -fx-border-width: 0 0 0 5;
+  -fx-font-size: 12;
+  -fx-font-weight: bold;
+  -fx-min-width: 250;
+}
+
+.toast-notification.info{
+  -fx-border-color: transparent transparent transparent #3498db;
+}
+
+.toast-notification.error{
+  -fx-border-color: transparent transparent transparent #e74c3c;
+}
+
+.toast-notification.warn{
+  -fx-border-color: transparent transparent transparent #f1c40f;
+}
+
+.toast-notification.success{
+  -fx-border-color: transparent transparent transparent #2ecc71;
+}
+
