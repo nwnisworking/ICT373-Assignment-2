@@ -157,7 +157,7 @@
 .list-view .list-cell{
   -fx-background-color: transparent;
   -fx-text-fill: #e0e0e0;
-  -fx-font-size: 14px;
+  -fx-font-size: 14;
   -fx-padding: 12 16 12 16;
 }
 
