@@ -38,6 +38,7 @@ public record DetailForm(
    */
   @Override
   public void save(Publication data){
+    if(data == null) return;
     data.setName(name.getValue());
     data.setCost(Double.parseDouble(cost.getValue()));
     
@@ -53,6 +54,7 @@ public record DetailForm(
    */
   @Override
   public void load(Publication data){
+    if(data == null) return;
     name.setValue(data.getName());
     cost.setValue(data.getCost() + "");
     type.setValue(data.getType());
