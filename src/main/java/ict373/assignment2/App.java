@@ -4,7 +4,6 @@ import ict373.assignment2.controllers.LoaderController;
 import ict373.assignment2.events.WindowEvent;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -48,7 +47,7 @@ public class App extends Application{
    * @param node The node to set as the root and controller of the FXML.
    * @return The loaded parent node from the FXML file, or null if it fails.
    */
-  public static Parent loadFXML(String fxml, Node node){
+  public static <T> T loadFXML(String fxml, Node node){
     try{
       URL url = App.class.getResource(fxml + ".fxml");
       FXMLLoader fxmlLoader = new FXMLLoader(url);
@@ -76,7 +75,7 @@ public class App extends Application{
    * @param controller The controller to set for the FXML.
    * @return The loaded parent node from the FXML file, or null if it fails.
    */
-  public static Parent loadFXML(String fxml, Object controller){
+  public static <T> T loadFXML(String fxml, Object controller){
     try{
       URL url = App.class.getResource(fxml + ".fxml");
       FXMLLoader fxmlLoader = new FXMLLoader(url);
