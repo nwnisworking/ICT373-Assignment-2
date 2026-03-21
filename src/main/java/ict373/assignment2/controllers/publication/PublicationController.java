@@ -10,6 +10,8 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Pagination;
@@ -111,23 +113,27 @@ public class PublicationController implements Initializable{
     event.consume();
     
     Publication publication = event.getPublication();
-    
+    EventType<? extends Event> event_type = event.getEventType();
+
     if(publication == null){
       System.out.println("[Publication]: Invalid publication event data passed");
       return;
     }
     
-    switch(event.getEventType().getName()){
-      case "PUBLICATION_CREATED" -> {
+    if(event_type.equals(PublicationEvent.PUBLICATION_CREATED)){
         publication_service.add(publication);
         updatePageCount();
         updateTableView(0);
-      }
-      case "PUBLICATION_DELETED" -> {
-        publication_service.remove(publication.getId());
-        updatePageCount();
-        updateTableView(pagination.getCurrentPageIndex());
-      }
+        content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, publication + " added"));
+    }
+    else if(event_type.equals(PublicationEvent.PUBLICATION_DELETED)){
+      publication_service.remove(publication.getId());
+      content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, publication + " deleted"));
+      updatePageCount();
+      updateTableView(pagination.getCurrentPageIndex());
+    }
+    else{
+      content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, publication + " data modified"));
     }
   }
 
