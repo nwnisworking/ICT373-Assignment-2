@@ -3,6 +3,7 @@ package ict373.assignment2.controllers.customer;
 import ict373.assignment2.events.*;
 import ict373.assignment2.services.CustomerService;
 import ict373.assignment2.models.customers.*;
+import ict373.assignment2.services.SubscriptionService;
 import ict373.assignment2.ui.table.DataTableView;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.scene.control.Pagination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -82,6 +85,11 @@ public class CustomerController implements Initializable{
    * ensuring that only the relevant customers are shown in the table view for the current page.
    */
 	private final ObservableList<Customer> page_items = FXCollections.observableArrayList();
+  
+  /**
+   * The SubscriptionService instance used to manage subscription data, including retrieving, adding, and removing subscriptions related to customers.
+   */
+  private final SubscriptionService subscription_service = SubscriptionService.getInstance();
   
   /**
    * Initialize the controller by setting up the table view, pagination, and event handlers for the customer view. 
@@ -154,23 +162,33 @@ public class CustomerController implements Initializable{
     event.consume();
     
     Customer customer = event.getCustomer();
+    EventType<? extends Event> event_type = event.getEventType();
     
     if(customer == null){
       System.out.println("[Customer]: Invalid customer event data passed");
       return;
     }
     
-    switch(event.getEventType().getName()){
-      case "CUSTOMER_CREATED" -> {
-        customer_service.add(customer);
-        updatePageCount();
-        updateTableView(0);
+    if(event_type.equals(CustomerEvent.CUSTOMER_CREATED)){
+      customer_service.add(customer);
+      content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, customer + " added"));
+      updatePageCount();
+      updateTableView(0);
+    }
+    else if(event_type.equals(CustomerEvent.CUSTOMER_DELETED)){
+      if(customer instanceof PayingCustomer pc){
+        for(AssociateCustomer ac : pc.getAssociates()){
+          subscription_service.remove(ac);
+        }
       }
-      case "CUSTOMER_DELETED" -> {
-        customer_service.remove(customer.getId());
-        updatePageCount();
-        updateTableView(pagination.getCurrentPageIndex());
-      }
+
+      customer_service.remove(customer);      
+      content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, customer + " deleted"));
+      updatePageCount();
+      updateTableView(pagination.getCurrentPageIndex());
+    }
+    else{
+      content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, customer + " data modified"));
     }
   }
   
