@@ -45,6 +45,7 @@ public record ProfileForm(
 
     if(customer instanceof AssociateCustomer ac){
       if(payer.getValue() != null){
+        ac.getPayer().removeAssociate(ac);
         ((PayingCustomer) payer.getValue()).addAssociate(ac);
       }
     }
