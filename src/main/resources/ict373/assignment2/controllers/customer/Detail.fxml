@@ -84,6 +84,26 @@
           <fx:include fx:id="subscription_table" source="../publication/Table.fxml"/>
         </VBox>
       </Tab>
+			<Tab text="Billing" fx:id="billing_tab">
+				<GridPane>
+					<TableView styleClass="billing-table" fx:id="billing_table" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
+						<columns>
+							<PropertyColumn fx:id="billing_customer" text="Customer" property="name" />
+							<PropertyColumn fx:id="billing_publication" text="Publication" property="publicationTitle" />
+							<PropertyColumn fx:id="billing_cost" text="Cost" property="cost" />
+						</columns>
+					</TableView>
+          <HBox styleClass="billing-info" GridPane.rowIndex="1">
+            <Label text="Amount" />
+            <TextField fx:id="billing_amount_field" prefColumnCount="6" />
+            <Label text="X" />
+            <TextField fx:id="billing_week_field" prefColumnCount="3" />
+            <Label text="Weeks" />
+            <TextField fx:id="billing_total_field" prefColumnCount="6" />
+          </HBox>
+					<DateInputField fx:id="billing_date_field" label="Billing Date:" GridPane.rowIndex="2" />
+				</GridPane>
+			</Tab>
 		</TabPane>
 	</center>
 </BorderPane>

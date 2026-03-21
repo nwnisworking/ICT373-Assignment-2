@@ -32,3 +32,11 @@
   -fx-text-fill: white;
 }
 
+.billing-info{
+  -fx-spacing: 10;
+  -fx-alignment: CENTER_LEFT;
+}
+
+.billing-info Label{
+  -fx-text-fill: white;
+}
