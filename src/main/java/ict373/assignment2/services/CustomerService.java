@@ -61,23 +61,25 @@ public class CustomerService extends Service<Integer, Customer>{
 	 */
 	@Override
 	public void remove(Integer customer_id){
-		Customer customer = get(customer_id);
+		remove(get(customer_id));
+	}
 
-		if(customer == null) return;
-
-		if(customer instanceof PayingCustomer){
-				PayingCustomer pc = (PayingCustomer) customer;
-				pc.removeAllAssociates();
+  public void remove(Customer customer){
+    if(customer == null) return;
+    
+    if(customer instanceof PayingCustomer){
+      PayingCustomer pc = (PayingCustomer) customer;
+      pc.removeAllAssociates();
 		}
 		else{
-				AssociateCustomer ac = (AssociateCustomer) customer;
-				ac.removePayer();
+      AssociateCustomer ac = (AssociateCustomer) customer;
+      ac.removePayer();
 		}
 
 		customers.remove(customer);
-		super.remove(customer_id);
-	}
-
+		super.remove(customer.getId());
+  }
+  
 	/**
 	 * Get a customer by their unique ID.
 	 * @param customer_id The unique ID of the customer.
