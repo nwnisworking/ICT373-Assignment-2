@@ -137,7 +137,8 @@ public class PublicationDetailController implements Initializable{
   @FXML
   private void save(){
     ValidatorResult result = detail.validate();
-
+    boolean is_new = publication == null;
+    
     if(!result.valid()){
       result.field().displayTooltip(result.message());
       return;
@@ -148,15 +149,18 @@ public class PublicationDetailController implements Initializable{
         case "Magazine" -> new Magazine();
         case "Supplement" -> new Supplement();
         default -> new Supplement();
-      };
-      
+      };      
+    }
+
+    detail.save(publication);
+
+    if(is_new){
       detail_panel.fireEvent(new PublicationEvent(PublicationEvent.PUBLICATION_CREATED, publication));
     }
     else{
       detail_panel.fireEvent(new PublicationEvent(PublicationEvent.PUBLICATION_EDITED, publication));
     }
     
-    detail.save(publication);
     System.out.println("[Publication]: Publication " + publication +  " saved");
     back();
   }
