@@ -14,6 +14,9 @@
   fx:id="main"
 	fx:controller="ict373.assignment2.controllers.HomeController"
 >
+  <stylesheets>
+    <URL value="@ui/Toast.css" />
+  </stylesheets>
   <BorderPane	fx:id="content">
     <left>
       <ListView fx:id="nav_items">
@@ -21,11 +24,18 @@
           <FXCollections fx:factory="observableArrayList">
             <String fx:value="Customers" />
             <String fx:value="Publications"/>
-            <String fx:value="Subscriptions"/>
+            <String fx:value="Save As" />
+            <String fx:value="Load" />
           </FXCollections>
         </items>
       </ListView>
     </left>
   </BorderPane>
+  <VBox 
+    fx:id="toast_container" 
+    styleClass="toast-container" 
+    StackPane.alignment="TOP_RIGHT" 
+    alignment="TOP_RIGHT" 
+  />
   <Modal fx:id="modal" />
 </StackPane>
