@@ -70,6 +70,36 @@ public class SubscriptionService extends Service<Customer, ArrayList<Publication
     }
   }
   
+  public void remove(Publication publication){
+    for(ArrayList<Publication> subscriptions : items.values()){
+      if(subscriptions.contains(publication)){
+        if(publication instanceof Supplement s){
+          subscriptions.remove(s);
+        }
+        else if(publication instanceof Magazine m){
+          subscriptions.remove(m);
+          
+          if(!subscriptions.contains(m)){
+            subscriptions.removeIf(e -> e instanceof Supplement s && m.equals(s.getMagazine()));
+          }
+        }
+      }
+    }
+  }
+  
+  public void removeAll(Publication publication){
+    for(ArrayList<Publication> subscriptions : items.values()){
+      if(subscriptions.contains(publication)){
+        if(publication instanceof Supplement s){
+          subscriptions.remove(s);
+        }
+        else if(publication instanceof Magazine m){
+          subscriptions.removeIf(e -> e instanceof Supplement s && m.equals(s.getMagazine()) || e.equals(m));
+        }
+      }
+    }
+  }
+  
 	/**
 	 * Get the list of publications to which a customer is subscribed.
 	 * @param customer The customer whose subscriptions are being retrieved.

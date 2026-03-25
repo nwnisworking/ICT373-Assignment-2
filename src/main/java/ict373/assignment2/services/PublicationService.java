@@ -60,11 +60,13 @@ public class PublicationService extends Service<Integer, Publication>{
 	 */
 	@Override
 	public void remove(Integer publication_id){
-		Publication publication = publications.get(publication_id);
+    remove(get(publication_id));
+	}
 
-		if(publication == null) return;
-
-		if(publication instanceof Magazine){
+  public void remove(Publication publication){
+    if(publication == null) return;
+    
+    if(publication instanceof Magazine){
 			Magazine magazine = (Magazine) publication;
 			magazine.removeAllSupplements();
 		}
@@ -72,11 +74,11 @@ public class PublicationService extends Service<Integer, Publication>{
 			Supplement supplement = (Supplement) publication;
 			supplement.setMagazine(null);
 		}
-
-		publications.remove(publication);
-		super.remove(publication_id);
-	}
-
+    
+    publications.remove(publication);
+		super.remove(publication.getId());
+  }
+  
 	/**
 	 * Retrieve a publication by their unique ID.
 	 * @param publication_id The unique ID of the publication.
