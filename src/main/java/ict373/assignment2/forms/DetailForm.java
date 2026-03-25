@@ -1,6 +1,5 @@
-package ict373.assignment2.controllers.publication.forms;
+package ict373.assignment2.forms;
 
-import ict373.assignment2.FormRecord;
 import ict373.assignment2.models.publications.*;
 import ict373.assignment2.ui.inputs.*;
 import ict373.assignment2.utils.Validator;
@@ -66,6 +65,11 @@ public record DetailForm(
 
   /**
    * Validate the input fields in the detail form to ensure that they contain valid data before saving.
+   * <ol>
+   *   <li>The name field must not be empty.</li>
+   *   <li>The cost field must not be empty.</li>
+   *   <li>The cost field must be a valid decimal number.</li>
+   * </ol>
    * 
    * @return A ValidatorResult indicating whether the validation passed or failed, along with any error messages.
    */

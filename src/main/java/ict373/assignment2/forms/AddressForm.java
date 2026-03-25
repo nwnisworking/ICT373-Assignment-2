@@ -1,7 +1,6 @@
-package ict373.assignment2.controllers.customer.forms;
+package ict373.assignment2.forms;
 
 import ict373.assignment2.models.Address;
-import ict373.assignment2.FormRecord;
 import ict373.assignment2.ui.inputs.InputField;
 import ict373.assignment2.ui.inputs.TextInputField;
 import ict373.assignment2.utils.Validator;

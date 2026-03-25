@@ -1,6 +1,5 @@
-package ict373.assignment2.controllers.customer.forms;
+package ict373.assignment2.forms;
 
-import ict373.assignment2.FormRecord;
 import ict373.assignment2.models.payments.CreditCard;
 import ict373.assignment2.models.payments.DirectDebit;
 import ict373.assignment2.models.payments.Method;

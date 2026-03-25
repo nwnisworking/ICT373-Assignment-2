@@ -1,4 +1,4 @@
-package ict373.assignment2;
+package ict373.assignment2.forms;
 
 import ict373.assignment2.ui.inputs.InputField;
 import ict373.assignment2.utils.Validator.ValidatorResult;
