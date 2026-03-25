@@ -1,7 +1,6 @@
 package ict373.assignment2.ui.table;
 
 import ict373.assignment2.events.TableEvent;
-import ict373.assignment2.ui.ActionCell;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
