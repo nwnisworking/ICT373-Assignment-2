@@ -1,10 +1,10 @@
 package ict373.assignment2.controllers.publication;
 
-import ict373.assignment2.controllers.publication.forms.DetailForm;
 import ict373.assignment2.models.publications.*;
 import ict373.assignment2.services.PublicationService;
 import ict373.assignment2.ui.inputs.*;
 import ict373.assignment2.events.*;
+import ict373.assignment2.forms.DetailForm;
 import ict373.assignment2.utils.Validator.ValidatorResult;
 import java.net.URL;
 import java.util.ResourceBundle;

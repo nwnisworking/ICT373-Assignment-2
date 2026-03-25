@@ -5,9 +5,8 @@ import ict373.assignment2.models.CustomerSubscription;
 import ict373.assignment2.models.customers.*;
 import ict373.assignment2.models.publications.*;
 import ict373.assignment2.models.payments.*;
-import ict373.assignment2.FormRecord;
-import ict373.assignment2.controllers.customer.forms.*;
 import ict373.assignment2.events.*;
+import ict373.assignment2.forms.*;
 import ict373.assignment2.services.*;
 import ict373.assignment2.ui.inputs.*;
 import ict373.assignment2.ui.table.DataTableView;
@@ -657,7 +656,7 @@ public class CustomerDetailController implements Initializable{
    * Load the billing information for the paying customer, including the list of subscriptions for the customer and their associates, the total amount due, and the next billing date. 
    */
   private void loadBillingInfo(){
-    if(customer == null || !(customer instanceof PayingCustomer pc)) return;
+    if(customer == null || customer instanceof AssociateCustomer) return;
 
     ObservableList<CustomerSubscription> billing_info = FXCollections.observableArrayList();
     ArrayList<Customer> customers = new ArrayList<>(associates);

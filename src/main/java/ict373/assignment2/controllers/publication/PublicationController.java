@@ -2,7 +2,7 @@ package ict373.assignment2.controllers.publication;
 
 import ict373.assignment2.events.*;
 import ict373.assignment2.models.publications.Publication;
-import ict373.assignment2.services.PublicationService;
+import ict373.assignment2.services.*;
 import ict373.assignment2.ui.table.DataTableView;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -68,6 +68,11 @@ public class PublicationController implements Initializable{
   private final PublicationService publication_service = PublicationService.getInstance(); 
   
   /**
+   * The SubscriptionService instance used to delete publications that are not listed in publication service.
+   */
+  private final SubscriptionService subscription_service = SubscriptionService.getInstance();
+  
+  /**
    * The filtered list of publications based on the search criteria. This list is used to implement the search functionality, allowing the table
    * to match publication based on the search criteria.
    */
@@ -127,7 +132,8 @@ public class PublicationController implements Initializable{
         content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, publication + " added"));
     }
     else if(event_type.equals(PublicationEvent.PUBLICATION_DELETED)){
-      publication_service.remove(publication.getId());
+      subscription_service.removeAll(publication);
+      publication_service.remove(publication);
       content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, publication + " deleted"));
       updatePageCount();
       updateTableView(pagination.getCurrentPageIndex());
