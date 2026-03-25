@@ -17,8 +17,8 @@ public class ToastEvent extends Event{
   
   private final String message;
   
-  public ToastEvent(EventType<ToastEvent> type, Status status, String message){
-    super(type);
+  public ToastEvent(EventType<ToastEvent> event, Status status, String message){
+    super(event);
     this.status = status;
     this.message = message;
   }

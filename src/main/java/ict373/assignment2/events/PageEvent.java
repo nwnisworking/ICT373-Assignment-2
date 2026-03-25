@@ -43,11 +43,11 @@ public class PageEvent<T> extends Event{
   /**
    * Constructs a new PageEvent with the specified event type and associated data.
    *
-   * @param type The type of the page event (e.g., VIEW, ADD, EDIT, BACK).
+   * @param event The type of the page event (e.g., VIEW, ADD, EDIT, BACK).
    * @param data The data associated with the page event.
    */
-  public PageEvent(EventType<PageEvent<?>> type, T data) {
-    super(type);
+  public PageEvent(EventType<PageEvent<?>> event, T data) {
+    super(event);
     this.data = data;
   }
 

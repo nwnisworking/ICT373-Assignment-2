@@ -13,8 +13,8 @@ public class ModalEvent extends Event{
   
   private final Node node;
   
-  public ModalEvent(EventType<ModalEvent> type, Node node){
-    super(type);
+  public ModalEvent(EventType<ModalEvent> event, Node node){
+    super(event);
     
     this.node = node;
   }

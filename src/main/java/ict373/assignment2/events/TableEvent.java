@@ -47,11 +47,11 @@ public class TableEvent<T> extends Event{
   /**
    * Constructs a new TableEvent with the specified event type and associated data.
    * 
-   * @param type The type of the table event.
+   * @param event The type of the table event.
    * @param data The data associated with the event.
    */
-  public TableEvent(EventType<TableEvent<?>> type, T data){
-    super(type);
+  public TableEvent(EventType<TableEvent<?>> event, T data){
+    super(event);
     this.data = data;
   }
   

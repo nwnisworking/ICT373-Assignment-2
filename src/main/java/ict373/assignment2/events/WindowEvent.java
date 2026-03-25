@@ -41,9 +41,9 @@ public class WindowEvent extends Event{
 
 	/**
 	 * Constructor for WindowEvent.
-	 * @param event_type The type of the window event.
+	 * @param event The type of the window event.
 	 */
-	public WindowEvent(EventType<? extends WindowEvent> event_type){
-		super(event_type);
+	public WindowEvent(EventType<WindowEvent> event){
+		super(event);
 	}
 }

@@ -41,7 +41,7 @@ public class PublicationEvent extends Event{
    * @param event The type of the event.
    * @param publication The publication associated with the event.
    */
-  public PublicationEvent(EventType<? extends PublicationEvent> event, Publication publication){
+  public PublicationEvent(EventType<PublicationEvent> event, Publication publication){
     super(event);
     this.publication = publication;
   }

@@ -41,7 +41,7 @@ public class CustomerEvent extends Event{
    * @param event The type of the event.
    * @param customer The customer associated with the event.
    */
-  public CustomerEvent(EventType<? extends CustomerEvent> event, Customer customer){
+  public CustomerEvent(EventType<CustomerEvent> event, Customer customer){
     super(event);
     this.customer = customer;
   }
