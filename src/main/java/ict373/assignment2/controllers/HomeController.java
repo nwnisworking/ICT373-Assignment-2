@@ -94,10 +94,12 @@ public class HomeController implements Initializable{
       case "Save As" -> {
         saveAs();
         nav_items.getSelectionModel().select(old_value);
+        return;
       }
       case "Load" -> {
         loadFile();
         nav_items.getSelectionModel().select(old_value);
+        return;
       }
     }
 
@@ -178,9 +180,9 @@ public class HomeController implements Initializable{
     try{
       ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(file));
       
-      CustomerService.getInstance().write(output);
-      PublicationService.getInstance().write(output);
-      SubscriptionService.getInstance().write(output);
+      App.write(output, CustomerService.getInstance());
+      App.write(output, PublicationService.getInstance());
+      App.write(output, SubscriptionService.getInstance());
       
       output.flush();
       output.close();
@@ -209,9 +211,9 @@ public class HomeController implements Initializable{
     try{
       ObjectInputStream input = new ObjectInputStream(new FileInputStream(file));
 
-      CustomerService.getInstance().read(input);
-      PublicationService.getInstance().read(input);
-      SubscriptionService.getInstance().read(input);
+      CustomerService.setInstance(App.read(input, CustomerService.class));
+      PublicationService.setInstance(App.read(input, PublicationService.class));
+      SubscriptionService.setInstance(App.read(input, SubscriptionService.class));
     }
     catch(IOException ex){
       System.out.println("[Loader]: Unable to read from the system.");
