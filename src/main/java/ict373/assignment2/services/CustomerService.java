@@ -1,8 +1,6 @@
 package ict373.assignment2.services;
 
 import ict373.assignment2.models.customers.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -102,7 +100,15 @@ public class CustomerService extends Service<Integer, Customer>{
 	 * @return The singleton instance of CustomerService.
 	 */
 	public static CustomerService getInstance(){
-		return instance == null ? new CustomerService() : instance;
+		if(instance == null) instance = new CustomerService();
+		return instance;
+	}
+
+	public static void setInstance(CustomerService service){
+		if(service != null){
+      instance = service;
+      service.init();
+    }
 	}
 
 	/**
@@ -112,17 +118,5 @@ public class CustomerService extends Service<Integer, Customer>{
 	public final void init(){
 		instance = this;
 		customers = FXCollections.observableArrayList(items.values());
-	}
-	
-	/**
-	 * Read the CustomerService instance from an ObjectInputStream.
-	 */
-	@Override
-	public void read(ObjectInputStream input){
-		try{
-			instance = (CustomerService) input.readObject();
-			instance.customers = FXCollections.observableArrayList(instance.items.values());
-		}
-		catch(ClassNotFoundException | IOException ex){}
 	}
 }

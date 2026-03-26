@@ -1,8 +1,5 @@
 package ict373.assignment2.services;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,23 +47,7 @@ public abstract class Service<K, V> implements Serializable{
 	}
 
 	/**
-	 * Write the Service instance to an ObjectOutputStream.
-	 * @param output The ObjectOutputStream to write the Service instance to.
-	 * @throws IOException If an I/O error occurs while writing the object.
-	 */
-	public void write(ObjectOutputStream output) throws IOException{
-		output.writeObject(this);
-	}
-
-	/**
 	 * Abstract method to initialize the service instance. 
 	 */
 	abstract public void init();
-
-	/**
-	 * Abstract method to read the service instance from an ObjectInputStream.
-	 * @param input The ObjectInputStream to read the Service instance from.
-	 * @throws IOException If an I/O error occurs while reading the object.
-	 */
-	abstract public void read(ObjectInputStream input);
 }

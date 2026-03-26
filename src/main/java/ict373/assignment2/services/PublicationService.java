@@ -1,8 +1,6 @@
 package ict373.assignment2.services;
 
 import ict373.assignment2.models.publications.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -101,9 +99,18 @@ public class PublicationService extends Service<Integer, Publication>{
 	 * @return The singleton instance of PublicationService.
 	 */
 	public static PublicationService getInstance(){
-		return instance == null ? new PublicationService() : instance;
+		if(instance == null) instance = new PublicationService();
+
+		return instance;
 	}
 	
+	public static void setInstance(PublicationService service){
+		if(service != null){
+      instance = service;
+      service.init();
+    }
+	}
+
 	/**
 	 * Initialize the PublicationService instance and the ObservableList of publications.
 	 */
@@ -111,17 +118,5 @@ public class PublicationService extends Service<Integer, Publication>{
 	public final void init(){
 		instance = this;
 		publications = FXCollections.observableArrayList(items.values());
-	}
-	
-	/**
-	 * Read the PublicationService instance from an ObjectInputStream.
-	 */
-	@Override
-	public void read(ObjectInputStream input){
-		try{
-			instance = (PublicationService) input.readObject();
-			instance.publications = FXCollections.observableArrayList(instance.items.values());
-		}
-		catch(ClassNotFoundException | IOException ex){}
 	}
 }

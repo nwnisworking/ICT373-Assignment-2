@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import ict373.assignment2.models.customers.Customer;
 import ict373.assignment2.models.publications.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 /**
  * <strong>SubscriptionService class</strong>
@@ -117,22 +115,18 @@ public class SubscriptionService extends Service<Customer, ArrayList<Publication
 		return instance == null ? new SubscriptionService() : instance;
 	}
 
+	public static void setInstance(SubscriptionService service){
+		if(service != null){
+      instance = service;
+      service.init();
+    }
+	}
+
 	/**
 	 * Initialize the SubscriptionService instance.
 	 */
 	@Override
 	public final void init(){
 		instance = this;
-	}
-	
-	/**
-	 * Read the SubscriptionService instance from an ObjectInputStream.
-	 */
-	@Override
-	public void read(ObjectInputStream input){
-		try{
-			instance = (SubscriptionService) input.readObject();
-		}
-		catch(ClassNotFoundException | IOException ex){}
 	}
 }
