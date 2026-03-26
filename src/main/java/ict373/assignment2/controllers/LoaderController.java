@@ -89,16 +89,16 @@ public class LoaderController implements Initializable{
 						ObjectInputStream input = new ObjectInputStream(new FileInputStream(file));
 
 						// Thread.sleep(800);
-
-						CustomerService.getInstance().read(input);
+						CustomerService.setInstance(App.read(input, CustomerService.class));
 						updateProgress(1, 3);
 						// Thread.sleep(800);
 
-						PublicationService.getInstance().read(input);
+            
+						PublicationService.setInstance(App.read(input, PublicationService.class));
 						updateProgress(2, 3);
 						// Thread.sleep(800);
 
-						SubscriptionService.getInstance().read(input);
+						SubscriptionService.setInstance(App.read(input, SubscriptionService.class));
 						updateProgress(3, 3);
 
 						input.close();
@@ -132,9 +132,9 @@ public class LoaderController implements Initializable{
       File file = new File(DATA);
       ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(file));
       
-      CustomerService.getInstance().write(output);
-      PublicationService.getInstance().write(output);
-      SubscriptionService.getInstance().write(output);
+			App.write(output, CustomerService.getInstance());
+      App.write(output, PublicationService.getInstance());
+      App.write(output, SubscriptionService.getInstance());
       
       output.flush();
       output.close();
