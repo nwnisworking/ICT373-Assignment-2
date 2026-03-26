@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import javafx.scene.Node;
 import javafx.stage.StageStyle;
@@ -89,6 +91,27 @@ public class App extends Application{
     }
     catch(IOException ex){
       System.out.println("[App]: Unable to load FXML for Controller");
+    }
+    
+    return null;
+  }
+
+  public static <T> void write(ObjectOutputStream output, T data){
+    try{
+      output.writeObject(data);
+    }
+    catch(IOException ex){
+      System.out.println("[App]: Unable to write data to output stream");
+    }
+  }
+
+  public static <T> T read(ObjectInputStream input, Class<T> type){
+    try{
+      Object obj = input.readObject();
+      return type.cast(obj);
+    }
+    catch(ClassNotFoundException | IOException ex){
+      System.out.println("[App]: Unable to read data from input stream");
     }
     
     return null;
