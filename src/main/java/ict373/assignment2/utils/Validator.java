@@ -235,14 +235,55 @@ public final class Validator<T>{
             return false;
           }
         }
+        
+        return true;
       }
-
-      return true;
+      else if(value instanceof Number){
+        return true;
+      }
+      
+      return false;
     }, message));
 
     return this;
   }
 
+  public Validator<T> positive(String message){
+    rules.add(new Rule<>(e -> {
+      T value = e.getValue();
+      
+      if(value instanceof String s){
+        boolean dot = false;
+
+        for(int i = 0; i < s.length(); i++){
+          char c = s.charAt(i);
+
+          if(i == 0 && (c == '-')) return false;
+
+          if(c == '.'){
+            if(!dot){
+              dot = true;
+              continue;
+            }
+
+            return false;
+          }
+
+          if(c < '0' || c > '9'){
+            return false;
+          }
+        }
+      }
+      else if(value instanceof Number n){
+        return n.doubleValue() > 0;
+      }
+      
+      return false;
+    }, message));
+    
+    return this;
+  }
+  
   /**
    * Add a validation rule that checks if the value of the input field is a date in the future.
    * @param message The error message to display if the validation fails.
