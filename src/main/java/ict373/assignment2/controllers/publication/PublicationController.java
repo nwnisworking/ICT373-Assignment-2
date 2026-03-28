@@ -140,6 +140,7 @@ public class PublicationController implements Initializable{
     }
     else{
       content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, publication + " data modified"));
+      updateTableView(pagination.getCurrentPageIndex());
     }
   }
 
