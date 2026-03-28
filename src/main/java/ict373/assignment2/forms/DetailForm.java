@@ -88,6 +88,7 @@ public record DetailForm(
     .create(cost)
     .notEmpty("Cost must not be empty")
     .decimal("Cost must be a decimal number")
+    .positive("Cost must be a positive number")
     .validate();
     
     if(!result.valid()) return result;
