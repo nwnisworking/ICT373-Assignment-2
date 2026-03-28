@@ -82,7 +82,7 @@ public class PublicationService extends Service<Integer, Publication>{
 	 * @param publication_id The unique ID of the publication.
 	 * @return The Publication object if found, null otherwise.
 	 */
-	public Publication getPublication(int publication_id){
+	public Publication get(int publication_id){
 		return super.get(publication_id);
 	}
 
