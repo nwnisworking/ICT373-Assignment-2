@@ -41,6 +41,7 @@ public class HomeController implements Initializable{
 	@FXML
 	private ListView<String> nav_items;
 
+  /** The main content area */
   @FXML
   private StackPane main;
   
@@ -54,6 +55,9 @@ public class HomeController implements Initializable{
   @FXML
   private Modal modal;
   
+  /**
+   * The toast container is used for displaying toast notifications to the user.
+   */
   @FXML
   private VBox toast_container;
   

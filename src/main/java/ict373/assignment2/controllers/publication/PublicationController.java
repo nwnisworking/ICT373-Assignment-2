@@ -20,6 +20,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * <strong>Publication Controller</strong>
+ * 
+ * <p>The publication controller class is responsible for managing the publication view, including displaying a list of publications in a table view, handling pagination, and managing the visibility of the detail view for adding or editing publications.</p>
+ * @author nwnisworking
+ * @date 19/3/2026
+ * @filename PublicationController.java
+
+ */
 public class PublicationController implements Initializable{
   /**
    * The total number of rows to display per page in the publication table. 

@@ -104,6 +104,7 @@ public record PaymentForm(
       .create(card_number)
       .notEmpty("Card number should not be empty")
       .exact(16, "Card number must be 16 digits")
+      .number("Card number must be numeric")
       .validate();
 
       if(!result.valid()) return result;
@@ -121,6 +122,7 @@ public record PaymentForm(
       .create(account_number)
       .notEmpty("Account number should not be empty")
       .range(10, 12, "Account number must be between 10 and 12 digits")
+      .number("Account number must be numeric")
       .validate();
 
       if(!result.valid()) return result;

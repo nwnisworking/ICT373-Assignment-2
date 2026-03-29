@@ -62,6 +62,10 @@ public class CustomerService extends Service<Integer, Customer>{
 		remove(get(customer_id));
 	}
 
+	/**
+	 * Remove a customer from the service.
+	 * @param customer The customer to be removed.
+	 */
   public void remove(Customer customer){
     if(customer == null) return;
     
@@ -104,6 +108,10 @@ public class CustomerService extends Service<Integer, Customer>{
 		return instance;
 	}
 
+	/**
+	 * Set the singleton instance of CustomerService. This method allows for dependency injection of a custom CustomerService instance, which can be useful for testing or if there is a need to replace the default implementation with a different one.
+	 * @param service The CustomerService instance to be set as the singleton instance.
+	 */
 	public static void setInstance(CustomerService service){
 		if(service != null){
       instance = service;

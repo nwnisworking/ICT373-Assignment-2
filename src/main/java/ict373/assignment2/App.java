@@ -96,6 +96,12 @@ public class App extends Application{
     return null;
   }
 
+  /**
+   * Write data to an ObjectOutputStream. This method is used for saving data.
+   * @param <T> The type of data to write to the output stream.
+   * @param output The ObjectOutputStream to write the data to.
+   * @param data The data to write to the output stream.
+   */
   public static <T> void write(ObjectOutputStream output, T data){
     try{
       output.writeObject(data);
@@ -105,6 +111,13 @@ public class App extends Application{
     }
   }
 
+  /**
+   * Read data from an ObjectInputStream. This method is used for loading data.
+   * @param <T> The type of data to read from the input stream.
+   * @param input The ObjectInputStream to read the data from.
+   * @param type The Class object representing the type of data to read.
+   * @return The data read from the input stream, or null if it fails.
+   */
   public static <T> T read(ObjectInputStream input, Class<T> type){
     try{
       Object obj = input.readObject();

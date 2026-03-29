@@ -8,6 +8,9 @@ import javafx.event.EventType;
  * 
  * <p>The PageEvent class represents events related to page navigation and actions within the application, such as viewing, adding, editing, or going back from a page.</p>
  * 
+ * @author nwnisworking
+ * @date 26/3/2026
+ * @filename PageEvent.java
  */
 public class PageEvent<T> extends Event{
   /**

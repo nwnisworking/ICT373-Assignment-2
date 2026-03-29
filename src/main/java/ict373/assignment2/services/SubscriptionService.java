@@ -54,6 +54,11 @@ public class SubscriptionService extends Service<Customer, ArrayList<Publication
 		super.remove(customer);
 	}
 
+	/**
+	 * Remove a subscription for a customer from a publication.
+	 * @param customer The customer who is unsubscribing.
+	 * @param publication The publication from which the customer is unsubscribing.
+	 */
   public void remove(Customer customer, Publication publication){
     ArrayList<Publication> subscriptions = super.get(customer);
     
@@ -68,6 +73,10 @@ public class SubscriptionService extends Service<Customer, ArrayList<Publication
     }
   }
   
+	/**
+	 * Remove a subscription from all customers for a publication.
+	 * @param publication The publication for which all subscriptions are to be removed.
+	 */
   public void remove(Publication publication){
     for(ArrayList<Publication> subscriptions : items.values()){
       if(subscriptions.contains(publication)){
@@ -84,7 +93,11 @@ public class SubscriptionService extends Service<Customer, ArrayList<Publication
       }
     }
   }
-  
+
+	/**
+	 * Remove all subscriptions for a publication. This method is used when a publication is deleted,
+	 * @param publication The publication for which all subscriptions are to be removed.
+	 */
   public void removeAll(Publication publication){
     for(ArrayList<Publication> subscriptions : items.values()){
       if(subscriptions.contains(publication)){

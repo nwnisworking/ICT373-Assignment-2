@@ -109,10 +109,18 @@ public abstract class Customer implements Serializable{
       return address;
     }
 
+    /**
+     * Get the type of customer as a string for display purposes.
+     * @return The type of customer ("Paying" or "Associate").
+     */
     public String getType(){
       return this instanceof PayingCustomer ? "Paying" : "Associate";
     }
     
+    /**
+     * Returns a string representation of the customer, which is the customer's name.
+     * @return The name of the customer as a string.
+     */
     @Override
     public String toString(){
       return name;

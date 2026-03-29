@@ -104,6 +104,10 @@ public class PublicationService extends Service<Integer, Publication>{
 		return instance;
 	}
 	
+	/**
+	 * Set the singleton instance of PublicationService. This method allows for dependency injection of a custom PublicationService instance, which can be useful for testing or if there is a need to replace the default implementation with a different one.
+	 * @param service The PublicationService instance to be set as the singleton instance.
+	 */
 	public static void setInstance(PublicationService service){
 		if(service != null){
       instance = service;

@@ -98,6 +98,10 @@ public abstract class Publication implements Serializable{
     return cost;
   }
   
+  /**
+   * Get the type of publication as a string for display purposes.
+   * @return The type of publication ("Magazine" or "Supplement").
+   */
   public String getType(){
     return getClass().getSimpleName();
   }

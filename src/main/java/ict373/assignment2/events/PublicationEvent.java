@@ -8,6 +8,10 @@ import ict373.assignment2.models.publications.Publication;
  * <strong>PublicationEvent class</strong>
  * 
  * <p>The PublicationEvent class represents events related to publication actions, such as creating, editing, or deleting a publication. </p>
+ * 
+ * @author nwnisworking
+ * @date 26/3/2026
+ * @filename PublicationEvent.java
  */
 public class PublicationEvent extends Event{
   /**

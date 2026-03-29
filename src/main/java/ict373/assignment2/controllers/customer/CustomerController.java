@@ -186,6 +186,7 @@ public class CustomerController implements Initializable{
       subscription_service.remove(customer);  
       content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, customer + " deleted"));
       updatePageCount();
+      updateTableView(pagination.getCurrentPageIndex());
     }
     else{
       content.fireEvent(new ToastEvent(ToastEvent.ANY, ToastEvent.Status.SUCCESS, customer + " data modified"));

@@ -248,6 +248,11 @@ public final class Validator<T>{
     return this;
   }
 
+  /**
+   * Add a validation rule that checks if the value of the input field is a positive number or a string representing a positive number.
+   * @param message The error message to display if the validation fails.
+   * @return This Validator instance for method chaining.
+   */
   public Validator<T> positive(String message){
     rules.add(new Rule<>(e -> {
       T value = e.getValue();

@@ -8,6 +8,10 @@ import ict373.assignment2.models.customers.Customer;
  * <strong>CustomerEvent class</strong>
  * 
  * <p>The CustomerEvent class represents events related to customer actions, such as creating, editing, or deleting a customer. </p>
+ * 
+ * @author nwnisworking
+ * @date 26/3/2026
+ * @filename CustomerEvent.java
  */
 public class CustomerEvent extends Event{
   /**
